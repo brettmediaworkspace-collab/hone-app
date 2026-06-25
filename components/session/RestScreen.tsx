@@ -90,7 +90,7 @@ export default function RestScreen({
       {/* Coach note */}
       <div className="w-full max-w-xs bg-hone-card border border-hone-border rounded-2xl p-4 mb-6 text-left">
         <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-2">
-          VERA
+          KOVA
         </p>
         <p className="text-sm text-hone-text leading-relaxed">&ldquo;{cue}&rdquo;</p>
       </div>

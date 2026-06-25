@@ -4,6 +4,11 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'HONE — Sharpen Daily',
   description: 'Cognitive fitness training. 7 minutes a day. 6 muscle groups. One score to beat.',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/icon-192.png',
+  },
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,

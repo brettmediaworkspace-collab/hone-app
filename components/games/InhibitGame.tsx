@@ -362,7 +362,7 @@ export default function InhibitGame({
         </div>
 
         <div className="mt-3 pt-3 border-t border-hone-border">
-          <p className="text-xs text-hone-muted uppercase tracking-widest mb-1 font-mono">VERA</p>
+          <p className="text-xs text-hone-muted uppercase tracking-widest mb-1 font-mono">KOVA</p>
           <p className="text-sm text-hone-text leading-relaxed">&ldquo;{coachCue}&rdquo;</p>
         </div>
       </div>

@@ -22,7 +22,7 @@ import {
   calcSessionScore,
   SetScore,
   TrialResult,
-  VERA_CUES,
+  KOVA_CUES,
   getRandomCue,
 } from '@/lib/scoring'
 
@@ -321,7 +321,7 @@ function GameRenderer({
   onComplete: (results: TrialResult[]) => void
 }) {
   const color = getMuscleColor(muscle)
-  const cues = VERA_CUES.setStart[muscle as keyof typeof VERA_CUES.setStart] ?? VERA_CUES.setStart.FOCUS
+  const cues = KOVA_CUES.setStart[muscle as keyof typeof KOVA_CUES.setStart] ?? KOVA_CUES.setStart.FOCUS
   const cue = getRandomCue(cues)
 
   const commonProps = {

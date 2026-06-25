@@ -45,7 +45,7 @@ export function calcSessionScore(set1: SetScore, set2: SetScore, set3: SetScore)
   return Math.round(weighted)
 }
 
-export const VERA_CUES = {
+export const KOVA_CUES = {
   warmup: [
     "Lock in. Seven minutes. No distractions.",
     "You're about to train your most important muscle.",

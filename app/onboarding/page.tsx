@@ -73,7 +73,7 @@ export default function OnboardingPage() {
           <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-8">
             1 / 3
           </p>
-          <h2 className="text-3xl font-black mb-2">What should VERA call you?</h2>
+          <h2 className="text-3xl font-black mb-2">What should KOVA call you?</h2>
           <p className="text-hone-muted text-sm mb-8">Your coach wants to know your name.</p>
 
           <input
@@ -102,7 +102,7 @@ export default function OnboardingPage() {
           </p>
           <h2 className="text-3xl font-black mb-2">What&apos;s your training goal?</h2>
           <p className="text-hone-muted text-sm mb-6">
-            VERA will build your daily split around this.
+            KOVA will build your daily split around this.
           </p>
 
           <div className="flex flex-col gap-3 mb-8">
@@ -153,7 +153,7 @@ export default function OnboardingPage() {
           </p>
           <h2 className="text-3xl font-black mb-2">When do you train?</h2>
           <p className="text-hone-muted text-sm mb-8">
-            VERA will remind you when it&apos;s time.
+            KOVA will remind you when it&apos;s time.
           </p>
 
           <div className="flex flex-col gap-3 mb-8">

@@ -64,12 +64,12 @@ export default function SessionComplete({
   const delta = honesScore - prevHonesScore
   const sets = [set1, set2, set3]
 
-  const VERA_NOTES = [
+  const KOVA_NOTES = [
     `${muscleGroup} is responding. Keep the pressure on.`,
     `${set3.accuracy > set1.accuracy ? 'You peaked on the finisher — that\'s elite adaptation.' : 'You\'ll find more in the finisher. We\'ll train it.'}`,
     `Session done. ${streak} days straight. The score reflects it.`,
   ]
-  const vera = VERA_NOTES[Math.floor(Math.random() * VERA_NOTES.length)]
+  const kova = KOVA_NOTES[Math.floor(Math.random() * KOVA_NOTES.length)]
 
   return (
     <div className={`flex flex-col h-full ${isPRFlashing ? 'pr-flash' : ''}`}>
@@ -165,12 +165,12 @@ export default function SessionComplete({
           </div>
         </div>
 
-        {/* VERA */}
+        {/* KOVA */}
         <div className="bg-hone-card border border-hone-border rounded-2xl p-4 mb-6">
           <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-2">
-            VERA
+            KOVA
           </p>
-          <p className="text-sm text-hone-text leading-relaxed">&ldquo;{vera}&rdquo;</p>
+          <p className="text-sm text-hone-text leading-relaxed">&ldquo;{kova}&rdquo;</p>
         </div>
 
         {/* Stats row */}
@@ -243,7 +243,7 @@ function PRCardOverlay({
 }) {
   const month = new Date().toLocaleString('default', { month: 'short', year: '2-digit' })
 
-  const VERA_QUOTES: Record<string, string> = {
+  const KOVA_QUOTES: Record<string, string> = {
     FOCUS: "Attention isn't a gift. It's a muscle. You just maxed it.",
     SPEED: "Reaction time trained is reaction time earned.",
     MEMORY: "What you encode deliberately, you own permanently.",
@@ -283,9 +283,9 @@ function PRCardOverlay({
           <div>
             <div className="border-t border-hone-border pt-4 mb-3">
               <p className="text-xs text-hone-muted leading-relaxed italic">
-                &ldquo;{VERA_QUOTES[muscleGroup] ?? VERA_QUOTES.FOCUS}&rdquo;
+                &ldquo;{KOVA_QUOTES[muscleGroup] ?? KOVA_QUOTES.FOCUS}&rdquo;
                 <br />
-                <span className="text-hone-muted not-italic">— VERA, Your Coach</span>
+                <span className="text-hone-muted not-italic">— KOVA, Your Coach</span>
               </p>
             </div>
             <p className="text-xs font-mono text-hone-muted">
