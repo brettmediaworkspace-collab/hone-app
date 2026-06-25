@@ -25,6 +25,8 @@ import {
   KOVA_CUES,
   getRandomCue,
 } from '@/lib/scoring'
+import { getSubscription, isFreeMuscle, markSessionStarted, FREE_MUSCLES } from '@/lib/subscription'
+import PaywallScreen from '@/components/PaywallScreen'
 
 type Phase =
   | 'warmup'
@@ -54,19 +56,31 @@ export default function SessionPage() {
   const [set3Score, setSet3Score] = useState<SetScore>(DEFAULT_SET_SCORE)
   const [finalState, setFinalState] = useState<ReturnType<typeof saveSessionResult> | null>(null)
   const [prevHonesScore, setPrevHonesScore] = useState(0)
+  const [paywallMuscle, setPaywallMuscle] = useState<string | null>(null)
+  const [isPro, setIsPro] = useState(false)
 
   useEffect(() => {
     const state = loadState()
     setPrevHonesScore(state.honesScore)
 
+    const sub = getSubscription()
+    setIsPro(sub.isPro)
+
     const goal = state.profile?.goal ?? 'Sharp Mind'
     const goalSplit = getGoalSplit(goal)
-    setSplit(goalSplit)
 
-    // Difficulty scales with session count
+    // For free users: replace locked muscles with free alternatives
+    const effectiveSplit = sub.isPro
+      ? goalSplit
+      : goalSplit.map(m => isFreeMuscle(m) ? m : FREE_MUSCLES[Math.floor(Math.random() * FREE_MUSCLES.length)])
+    setSplit(effectiveSplit)
+
+    // Difficulty: cap at 3 for free users
     const sessionCount = state.profile?.sessionCount ?? 0
-    const diff = Math.min(12, Math.max(1, Math.floor(sessionCount / 3) + 2))
-    setDifficulty(diff)
+    const rawDiff = Math.min(12, Math.max(1, Math.floor(sessionCount / 3) + 2))
+    setDifficulty(sub.isPro ? rawDiff : Math.min(3, rawDiff))
+
+    markSessionStarted()
   }, [])
 
   const handleSet1Complete = useCallback(
@@ -140,6 +154,17 @@ export default function SessionPage() {
 
   const muscleGroup = split[0]
   const muscleColor = getMuscleColor(muscleGroup)
+
+  // Paywall overlay — shown when a free user hits a locked muscle mid-session
+  if (paywallMuscle) {
+    return (
+      <PaywallScreen
+        trigger="muscle"
+        muscleGroup={paywallMuscle}
+        onClose={() => router.replace('/')}
+      />
+    )
+  }
 
   return (
     <div className="h-screen flex flex-col bg-hone-bg overflow-hidden">

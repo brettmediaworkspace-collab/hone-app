@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { SetScore } from '@/lib/scoring'
 import { getMuscleColor } from '@/lib/gameState'
+import { isPro as getIsPro } from '@/lib/subscription'
+import PaywallScreen from '@/components/PaywallScreen'
 
 interface SessionCompleteProps {
   muscleGroup: string
@@ -226,6 +228,41 @@ export default function SessionComplete({
   )
 }
 
+function ShareActions({
+  muscleGroup, score, dayNumber, color, onClose,
+}: { muscleGroup: string; score: number; dayNumber: number; color: string; onClose: () => void }) {
+  const [showPaywall, setShowPaywall] = useState(false)
+  const pro = getIsPro()
+
+  if (showPaywall) {
+    return <PaywallScreen trigger="share" muscleGroup={muscleGroup} onClose={() => setShowPaywall(false)} />
+  }
+
+  return (
+    <div className="mt-4 flex gap-3">
+      <button onClick={onClose} className="flex-1 py-3 rounded-xl font-mono text-sm text-hone-muted border border-hone-border">
+        Close
+      </button>
+      <button
+        className="flex-1 py-3 rounded-xl font-mono font-bold text-sm text-hone-bg"
+        style={{ backgroundColor: color }}
+        onClick={() => {
+          if (!pro) { setShowPaywall(true); return }
+          if (navigator.share) {
+            navigator.share({
+              title: `HONE — ${muscleGroup} Personal Record`,
+              text: `Just hit ${score} on ${muscleGroup}. Day ${dayNumber}. #HONE`,
+              url: 'https://hone.appsplosh.com',
+            })
+          }
+        }}
+      >
+        {pro ? 'Share' : '🔒 Share'}
+      </button>
+    </div>
+  )
+}
+
 function PRCardOverlay({
   muscleGroup,
   score,
@@ -298,29 +335,13 @@ function PRCardOverlay({
         </div>
 
         {/* Actions */}
-        <div className="mt-4 flex gap-3">
-          <button
-            onClick={onClose}
-            className="flex-1 py-3 rounded-xl font-mono text-sm text-hone-muted border border-hone-border"
-          >
-            Close
-          </button>
-          <button
-            className="flex-1 py-3 rounded-xl font-mono font-bold text-sm text-hone-bg"
-            style={{ backgroundColor: color }}
-            onClick={() => {
-              if (navigator.share) {
-                navigator.share({
-                  title: `HONE — ${muscleGroup} Personal Record`,
-                  text: `Just hit ${score} on ${muscleGroup}. Day ${dayNumber}. #HONE`,
-                  url: 'https://hone.appsplosh.com',
-                })
-              }
-            }}
-          >
-            Share
-          </button>
-        </div>
+        <ShareActions
+          muscleGroup={muscleGroup}
+          score={score}
+          dayNumber={dayNumber}
+          color={color}
+          onClose={onClose}
+        />
       </div>
     </div>
   )

@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { loadState, AppState, getMuscleColor, getGoalSplit } from '@/lib/gameState'
+import { getSubscription, canStartSession, isFreeMuscle } from '@/lib/subscription'
+import PaywallScreen from '@/components/PaywallScreen'
 
 const MUSCLE_GROUPS = ['FOCUS', 'SPEED', 'MEMORY', 'LOGIC', 'WORDS', 'CONTROL'] as const
 
@@ -10,6 +12,8 @@ export default function HomePage() {
   const router = useRouter()
   const [state, setState] = useState<AppState | null>(null)
   const [tab, setTab] = useState<'home' | 'progress'>('home')
+  const [paywall, setPaywall] = useState<{ trigger: 'daily-limit' | 'streak' | 'general' } | null>(null)
+  const [proState, setProState] = useState({ isPro: false })
 
   useEffect(() => {
     const s = loadState()
@@ -18,9 +22,35 @@ export default function HomePage() {
       return
     }
     setState(s)
+    setProState(getSubscription())
   }, [router])
 
+  function handleStartSession() {
+    if (!proState.isPro && !canStartSession()) {
+      setPaywall({ trigger: 'daily-limit' })
+      return
+    }
+    // Streak paywall at 7 days for free users
+    const streak = state?.profile?.streak ?? 0
+    if (!proState.isPro && streak >= 7 && streak % 7 === 0) {
+      setPaywall({ trigger: 'streak' })
+      return
+    }
+    router.push('/session')
+  }
+
   if (!state || !state.profile) return null
+
+  if (paywall) {
+    return (
+      <PaywallScreen
+        trigger={paywall.trigger}
+        honesScore={state.honesScore}
+        streakDays={state.profile.streak}
+        onClose={() => setPaywall(null)}
+      />
+    )
+  }
 
   const { profile, honesScore, muscleScores, sessionHistory, bestScores } = state
   const today = new Date()
@@ -48,7 +78,9 @@ export default function HomePage() {
             streak={profile.streak}
             lastPRDays={lastPRDays}
             trainedToday={trainedToday}
-            onStartSession={() => router.push('/session')}
+            isPro={proState.isPro}
+          onStartSession={handleStartSession}
+          onShowPaywall={() => setPaywall({ trigger: 'general' })}
           />
         ) : (
           <ProgressTab
@@ -93,7 +125,9 @@ function HomeTab({
   streak,
   lastPRDays,
   trainedToday,
+  isPro,
   onStartSession,
+  onShowPaywall,
 }: {
   dayName: string
   sessionCount: number
@@ -103,7 +137,9 @@ function HomeTab({
   streak: number
   lastPRDays: number | null
   trainedToday: boolean
+  isPro: boolean
   onStartSession: () => void
+  onShowPaywall: () => void
 }) {
   return (
     <div className="px-4 pt-8">
@@ -138,15 +174,18 @@ function HomeTab({
           {MUSCLE_GROUPS.map(muscle => {
             const score = muscleScores[muscle]
             const color = getMuscleColor(muscle)
+            const locked = !isPro && !isFreeMuscle(muscle)
             return (
               <div key={muscle} className="flex items-center gap-2">
                 <div
                   className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: score > 0 ? color : '#2A2A36' }}
+                  style={{ backgroundColor: locked ? '#2A2A36' : score > 0 ? color : '#2A2A36' }}
                 />
                 <div className="min-w-0">
-                  <p className="text-xs font-mono text-hone-muted truncate">{muscle}</p>
-                  {score > 0 && (
+                  <p className="text-xs font-mono truncate" style={{ color: locked ? '#3A3A4A' : '#6B6B80' }}>
+                    {muscle}{locked ? ' 🔒' : ''}
+                  </p>
+                  {!locked && score > 0 && (
                     <p className="text-xs font-mono font-bold" style={{ color }}>
                       {score}
                     </p>
@@ -187,10 +226,25 @@ function HomeTab({
       {/* CTA */}
       <button
         onClick={onStartSession}
-        className="w-full py-5 rounded-2xl font-mono font-bold uppercase tracking-widest text-hone-bg text-base bg-hone-green mb-4 transition-opacity active:opacity-80 relative overflow-hidden"
+        className="w-full py-5 rounded-2xl font-mono font-bold uppercase tracking-widest text-hone-bg text-base bg-hone-green mb-3 transition-opacity active:opacity-80"
       >
         {trainedToday ? 'Train Again ▶' : 'Start Today\'s Session ▶'}
       </button>
+
+      {/* Pro upsell nudge */}
+      {!isPro && (
+        <button
+          onClick={onShowPaywall}
+          className="w-full py-3 rounded-xl border border-hone-border bg-hone-card mb-4 flex items-center justify-between px-4"
+        >
+          <span className="text-xs font-mono text-hone-muted uppercase tracking-widest">
+            Unlock 3 more muscle groups
+          </span>
+          <span className="text-xs font-mono px-2 py-0.5 rounded-full" style={{ backgroundColor: '#B8F53C20', color: '#B8F53C' }}>
+            PRO →
+          </span>
+        </button>
+      )}
 
       {/* Stats row */}
       <div className="flex items-center justify-between px-1">
