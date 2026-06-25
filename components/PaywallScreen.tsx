@@ -11,18 +11,25 @@ interface PaywallScreenProps {
 }
 
 const MUSCLE_COLOR: Record<string, string> = {
-  MEMORY: '#A03CF5',
-  LOGIC:  '#F58A3C',
-  CONTROL:'#F5503C',
+  MEMORY:  '#A03CF5',
+  LOGIC:   '#F58A3C',
+  CONTROL: '#F5503C',
 }
 
 const TRIGGER_COPY: Record<string, { headline: string; sub: string }> = {
-  muscle:        { headline: 'Unlock this muscle group', sub: 'Pro unlocks all 6 cognitive muscle groups and adaptive difficulty.' },
-  'daily-limit': { headline: "You've trained today", sub: "Free users get one session per day. Go Pro for unlimited sessions." },
-  streak:        { headline: "Don't break your streak", sub: "Pro keeps your streak alive and unlocks full session history." },
-  share:         { headline: 'Share your PR', sub: 'Pro users can share their Personal Records. Show your brain gains.' },
+  muscle:        { headline: 'Unlock this muscle group',     sub: 'Pro unlocks all 6 cognitive muscle groups and adaptive difficulty.' },
+  'daily-limit': { headline: "You've trained today",         sub: "Free users get one session per day. Go Pro for unlimited sessions." },
+  streak:        { headline: "Don't break your streak",      sub: "Pro keeps your streak alive and unlocks full session history." },
+  share:         { headline: 'Share your PR',                sub: 'Pro users can share their Personal Records. Show your brain gains.' },
   difficulty:    { headline: 'Your brain is ready for more', sub: 'Free tier caps at Level 3. Pro unlocks full adaptive difficulty up to Level 12.' },
-  general:       { headline: 'Unlock HONE Pro', sub: 'Get full access to all 6 muscle groups, unlimited sessions, and adaptive difficulty.' },
+  general:       { headline: 'Unlock HONE Pro',              sub: 'Full access to all 6 muscle groups, unlimited sessions, and adaptive difficulty.' },
+}
+
+// Lemon Squeezy hosted checkout URLs — set these in .env.local
+const LS_URLS: Record<string, string | undefined> = {
+  monthly:  process.env.NEXT_PUBLIC_LS_MONTHLY_URL,
+  annual:   process.env.NEXT_PUBLIC_LS_ANNUAL_URL,
+  lifetime: process.env.NEXT_PUBLIC_LS_LIFETIME_URL,
 }
 
 export default function PaywallScreen({
@@ -36,21 +43,17 @@ export default function PaywallScreen({
   const copy = TRIGGER_COPY[trigger] ?? TRIGGER_COPY.general
   const accentColor = muscleGroup ? (MUSCLE_COLOR[muscleGroup] ?? '#B8F53C') : '#B8F53C'
 
-  async function checkout(plan: 'monthly' | 'annual' | 'lifetime') {
-    setLoading(plan)
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan }),
-      })
-      const { url, error } = await res.json()
-      if (error) { alert(error); setLoading(null); return }
-      window.location.href = url
-    } catch {
-      alert('Something went wrong. Please try again.')
-      setLoading(null)
+  function checkout(plan: 'monthly' | 'annual' | 'lifetime') {
+    const baseUrl = LS_URLS[plan]
+    if (!baseUrl) {
+      alert('Checkout not configured yet — check back soon.')
+      return
     }
+    setLoading(plan)
+    const origin = window.location.origin
+    const successUrl = encodeURIComponent(`${origin}/success?plan=${plan}`)
+    const cancelUrl  = encodeURIComponent(`${origin}/`)
+    window.location.href = `${baseUrl}?checkout[success_url]=${successUrl}&checkout[cancel_url]=${cancelUrl}`
   }
 
   return (
@@ -67,7 +70,6 @@ export default function PaywallScreen({
 
       <div className="flex flex-col items-center px-5 pt-4 pb-8">
 
-        {/* Icon / context */}
         {muscleGroup && (
           <div
             className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5"
@@ -83,7 +85,6 @@ export default function PaywallScreen({
           <div className="text-4xl mb-4">🔥</div>
         )}
 
-        {/* Headline */}
         <h1 className="text-2xl font-black text-center mb-2 leading-tight">
           {copy.headline}
         </h1>
@@ -91,7 +92,6 @@ export default function PaywallScreen({
           {copy.sub}
         </p>
 
-        {/* Score anchor — show what they'd be losing */}
         {honesScore !== undefined && honesScore > 0 && (
           <div className="w-full max-w-xs bg-hone-card border border-hone-border rounded-2xl p-4 mb-6 text-center">
             <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-1">Your HONE Score</p>
@@ -100,7 +100,7 @@ export default function PaywallScreen({
           </div>
         )}
 
-        {/* Feature bullets */}
+        {/* Feature list */}
         <div className="w-full max-w-xs bg-hone-card border border-hone-border rounded-2xl p-4 mb-6">
           <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-3">HONE Pro includes</p>
           {[
@@ -119,14 +119,14 @@ export default function PaywallScreen({
           ))}
         </div>
 
-        {/* Pricing cards */}
+        {/* Pricing */}
         <div className="w-full max-w-xs flex flex-col gap-3 mb-4">
 
           {/* Annual — hero */}
           <button
             onClick={() => checkout('annual')}
             disabled={loading !== null}
-            className="relative w-full rounded-2xl p-4 text-left transition-all active:scale-98 border-2"
+            className="relative w-full rounded-2xl p-4 text-left border-2 transition-all active:scale-98"
             style={{ backgroundColor: '#0f1a08', borderColor: '#B8F53C' }}
           >
             <span
@@ -185,7 +185,7 @@ export default function PaywallScreen({
         </div>
 
         <p className="text-xs text-hone-muted text-center max-w-xs leading-relaxed">
-          Subscriptions renew automatically. Cancel anytime in your account settings. Payment processed securely via Stripe.
+          Subscriptions renew automatically. Cancel anytime. VAT included. Payment processed securely by Lemon Squeezy.
         </p>
       </div>
     </div>
