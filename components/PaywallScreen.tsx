@@ -179,7 +179,7 @@ export default function PaywallScreen({
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-mono font-black text-lg text-hone-text">£59.99 once</p>
+                <p className="font-mono font-black text-lg text-hone-text">£99.99 once</p>
                 <p className="text-xs text-hone-muted mt-0.5">Early adopter · Pay once, own forever</p>
               </div>
               {loading === 'lifetime'
