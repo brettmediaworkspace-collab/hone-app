@@ -116,6 +116,24 @@ export function saveSessionResult(result: SessionResult): AppState {
   return next
 }
 
+// Baseline assessment: seeds initial muscle scores + HONE score without
+// counting as a training session (no streak, no session count, no history).
+export function saveBaseline(scores: Partial<MuscleScores>): AppState {
+  const state = loadState()
+  const muscleScores = { ...state.muscleScores, ...scores }
+  const next: AppState = {
+    ...state,
+    muscleScores,
+    honesScore: calcHonesScore(muscleScores),
+  }
+  saveState(next)
+  return next
+}
+
+export function hasBaseline(): boolean {
+  return loadState().honesScore > 0
+}
+
 function getPrevDay(dateStr: string): string {
   const d = new Date(dateStr)
   d.setDate(d.getDate() - 1)

@@ -160,14 +160,27 @@ function HomeTab({
         <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-3">
           Your HONE Score
         </p>
-        <div className="flex items-end gap-3 mb-4">
-          <p className="font-mono font-black text-7xl leading-none text-hone-text">
-            {honesScore || '—'}
-          </p>
-          {honesScore > 0 && (
+        {honesScore > 0 ? (
+          <div className="flex items-end gap-3 mb-4">
+            <p className="font-mono font-black text-7xl leading-none text-hone-text">
+              {honesScore}
+            </p>
             <p className="text-hone-muted text-sm mb-2 font-mono">/ 1000</p>
-          )}
-        </div>
+          </div>
+        ) : (
+          <a
+            href="/baseline"
+            className="block rounded-2xl border border-hone-green/40 bg-hone-green/5 px-4 py-4 mb-4"
+          >
+            <p className="text-sm font-bold text-hone-text mb-0.5">
+              No baseline yet
+            </p>
+            <p className="text-xs text-hone-muted leading-relaxed">
+              Take the 3-minute assessment to unlock your starting score{' '}
+              <span className="text-hone-green font-mono">→</span>
+            </p>
+          </a>
+        )}
 
         {/* Muscle group dots */}
         <div className="grid grid-cols-3 gap-2">

@@ -36,7 +36,7 @@ export default function OnboardingPage() {
       lastSessionDate: null,
       sessionCount: 0,
     })
-    router.push('/')
+    router.push('/baseline')
   }
 
   return (
@@ -203,8 +203,8 @@ export default function OnboardingPage() {
             </p>
             <h2 className="text-4xl font-black mb-2">Sharpen daily.</h2>
             <p className="text-hone-muted text-base leading-relaxed mt-4">
-              Your first session is waiting.
-              <br />7 minutes. That&apos;s all it takes.
+              First: a 3-minute baseline assessment.
+              <br />Three rounds. One starting score.
             </p>
           </div>
 
@@ -232,7 +232,7 @@ export default function OnboardingPage() {
             onClick={handleComplete}
             className="w-full max-w-xs py-4 rounded-2xl font-mono font-bold uppercase tracking-widest text-hone-bg text-sm bg-hone-green transition-opacity active:opacity-80"
           >
-            Start first session
+            Get my baseline score
           </button>
         </div>
       )}
