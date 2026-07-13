@@ -8,6 +8,7 @@ import NBackGame from '@/components/games/NBackGame'
 import { loadState, saveBaseline, getMuscleColor } from '@/lib/gameState'
 import { calcSetScore, SetScore, TrialResult } from '@/lib/scoring'
 import { useAuth } from '@/lib/auth'
+import { playCelebration, playTick } from '@/lib/feedback'
 
 // Three quick rounds sample three distinct muscle groups.
 // MEMORY is a Pro muscle — sampling it in the baseline is deliberate:
@@ -207,6 +208,7 @@ function Interstitial({
 
   useEffect(() => {
     const iv = setInterval(() => {
+      playTick()
       setCountdown(c => Math.max(0, c - 1))
     }, 1000)
     return () => clearInterval(iv)
@@ -310,6 +312,7 @@ function RevealScreen({
       if (current >= honesScore) {
         setDisplayScore(honesScore)
         clearInterval(iv)
+        playCelebration()
         setTimeout(() => setShowDetail(true), 400)
       } else {
         setDisplayScore(Math.round(current))

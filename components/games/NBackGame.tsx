@@ -5,6 +5,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { TrialResult } from '@/lib/scoring'
+import { playResult } from '@/lib/feedback'
 
 interface NBackGameProps {
   difficulty: number
@@ -163,6 +164,7 @@ export default function NBackGame({
         resultsRef.current = [...resultsRef.current, result]
         setResults(r => [...r, result])
         setFeedback(fb)
+        if (fb !== 'correct-reject') playResult(result.correct)
         setPhase('feedback')
 
         trialTimeoutRef.current = setTimeout(() => {
@@ -181,6 +183,7 @@ export default function NBackGame({
     resultsRef.current = [...resultsRef.current, result]
     setResults(r => [...r, result])
     setFeedback(wasMatch ? 'hit' : 'false-alarm')
+    playResult(wasMatch)
 
     if (trialTimeoutRef.current) clearTimeout(trialTimeoutRef.current)
     trialTimeoutRef.current = setTimeout(() => {

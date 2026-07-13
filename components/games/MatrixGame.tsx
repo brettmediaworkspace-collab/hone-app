@@ -6,6 +6,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { TrialResult } from '@/lib/scoring'
+import { playResult } from '@/lib/feedback'
 
 interface MatrixGameProps {
   difficulty: number
@@ -144,6 +145,7 @@ export default function MatrixGame({
       resultsRef.current = [...resultsRef.current, result]
       setResults(r => [...r, result])
       setFeedback('wrong')
+      playResult(false)
       trialTimeoutRef.current = setTimeout(() => {
         if (!doneRef.current) nextProblem()
       }, 500)
@@ -161,6 +163,7 @@ export default function MatrixGame({
     setResults(r => [...r, result])
     setSelected(idx)
     setFeedback(correct ? 'correct' : 'wrong')
+    playResult(correct)
 
     trialTimeoutRef.current = setTimeout(() => {
       if (!doneRef.current) nextProblem()

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { TrialResult } from '@/lib/scoring'
+import { playResult } from '@/lib/feedback'
 
 type Shape = 'circle' | 'square' | 'triangle' | 'diamond' | 'hexagon'
 type Phase = 'ready' | 'highlight' | 'response' | 'feedback' | 'complete'
@@ -138,6 +139,7 @@ export default function LockOnGame({
           resultsRef.current = [...resultsRef.current, result]
           setResults(r => [...r, result])
           setFeedbackCorrect(false)
+          playResult(false)
           setPhase('feedback')
 
           trialTimeoutRef.current = setTimeout(() => {
@@ -164,6 +166,7 @@ export default function LockOnGame({
       setResults(r => [...r, result])
       setSelectedId(id)
       setFeedbackCorrect(correct)
+      playResult(correct)
       setHighlightedId(correctIdRef.current)
       setPhase('feedback')
 

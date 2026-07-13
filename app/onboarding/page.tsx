@@ -42,7 +42,7 @@ export default function OnboardingPage() {
   return (
     <div className="h-screen flex flex-col bg-hone-bg overflow-hidden">
       {step === 'hook' && (
-        <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
+        <div className="flex-1 flex flex-col items-center justify-center px-6 text-center animate-slide-up">
           <div className="mb-12">
             <p className="font-mono font-black text-lg tracking-widest mb-16">
               H<span className="text-hone-green">O</span>NE
@@ -69,7 +69,7 @@ export default function OnboardingPage() {
       )}
 
       {step === 'name' && (
-        <div className="flex-1 flex flex-col justify-center px-6">
+        <div className="flex-1 flex flex-col justify-center px-6 animate-slide-up">
           <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-8">
             1 / 3
           </p>
@@ -96,7 +96,7 @@ export default function OnboardingPage() {
       )}
 
       {step === 'goal' && (
-        <div className="flex-1 flex flex-col px-6 py-8 overflow-y-auto">
+        <div className="flex-1 flex flex-col px-6 py-8 overflow-y-auto animate-slide-up">
           <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-8">
             2 / 3
           </p>
@@ -147,7 +147,7 @@ export default function OnboardingPage() {
       )}
 
       {step === 'time' && (
-        <div className="flex-1 flex flex-col justify-center px-6">
+        <div className="flex-1 flex flex-col justify-center px-6 animate-slide-up">
           <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-8">
             3 / 3
           </p>
@@ -192,7 +192,7 @@ export default function OnboardingPage() {
       )}
 
       {step === 'ready' && (
-        <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
+        <div className="flex-1 flex flex-col items-center justify-center px-6 text-center animate-slide-up">
           <p className="font-mono font-black text-lg tracking-widest mb-12">
             H<span className="text-hone-green">O</span>NE
           </p>

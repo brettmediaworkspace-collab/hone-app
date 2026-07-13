@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { TrialResult } from '@/lib/scoring'
+import { playResult } from '@/lib/feedback'
 
 // Go/No-Go task: tap GO shapes, ignore NO-GO shapes
 // GO = circle, NO-GO = everything else
@@ -132,10 +133,12 @@ export default function InhibitGame({
           // Miss: should have tapped but didn't
           result = { correct: false, reactionTimeMs: null }
           setFeedback('miss')
+          playResult(false)
         } else if (!isGo && !didTap) {
           // Correct inhibition
           result = { correct: true, reactionTimeMs: null }
           setFeedback('correct')
+          playResult(true)
         } else {
           // Was handled by tap handler already
           result = { correct: isGo, reactionTimeMs: null }
@@ -169,6 +172,7 @@ export default function InhibitGame({
     resultsRef.current = [...resultsRef.current, result]
     setResults(r => [...r, result])
     setFeedback(isGo ? 'correct' : 'false-alarm')
+    playResult(isGo)
   }, [trialPhase])
 
   useEffect(() => {

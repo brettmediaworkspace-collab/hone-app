@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { SetScore } from '@/lib/scoring'
 import { getMuscleColor } from '@/lib/gameState'
 import { isPro as getIsPro } from '@/lib/subscription'
+import { playCelebration, playSetComplete } from '@/lib/feedback'
 import PaywallScreen from '@/components/PaywallScreen'
 
 interface SessionCompleteProps {
@@ -53,7 +54,10 @@ export default function SessionComplete({
         setDisplayScore(target)
         clearInterval(countRef.current!)
         if (isPersonalRecord) {
+          playCelebration()
           setTimeout(() => setIsPRFlashing(true), 400)
+        } else {
+          playSetComplete()
         }
       } else {
         setDisplayScore(Math.round(current))

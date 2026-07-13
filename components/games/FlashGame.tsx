@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { TrialResult } from '@/lib/scoring'
+import { playResult } from '@/lib/feedback'
 
 interface FlashGameProps {
   difficulty: number
@@ -74,6 +75,7 @@ export default function FlashGame({
       resultsRef.current = [...resultsRef.current, result]
       setResults(r => [...r, result])
       setFeedback('miss')
+      playResult(false)
       setTarget(null)
       setTimeout(() => {
         if (!doneRef.current) spawnTarget()
@@ -101,6 +103,7 @@ export default function FlashGame({
       resultsRef.current = [...resultsRef.current, result]
       setResults(r => [...r, result])
       setFeedback('hit')
+      playResult(true)
       setTarget(null)
 
       setTimeout(() => {

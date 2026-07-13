@@ -5,6 +5,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { TrialResult } from '@/lib/scoring'
+import { playResult } from '@/lib/feedback'
 
 interface WordGameProps {
   difficulty: number
@@ -158,6 +159,7 @@ export default function WordGame({
       resultsRef.current = [...resultsRef.current, result]
       setResults(r => [...r, result])
       setFeedback('wrong')
+      playResult(false)
       trialTimeoutRef.current = setTimeout(() => {
         if (!doneRef.current) nextTrial()
       }, 400)
@@ -175,6 +177,7 @@ export default function WordGame({
     setResults(r => [...r, result])
     setSelected(choice)
     setFeedback(correct ? 'correct' : 'wrong')
+    playResult(correct)
 
     trialTimeoutRef.current = setTimeout(() => {
       if (!doneRef.current) nextTrial()
