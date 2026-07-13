@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // HONE app data — one doc per user, isolated from other appsplosh data.
+    match /hone_users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      // Clients may write their state mirror, but never the server-verified
+      // subscription (written only by the payments webhook via Admin SDK).
+      allow write: if request.auth != null
+        && request.auth.uid == uid
+        && !request.resource.data.keys().hasAny(['subscription']);
+    }
+  }
+}

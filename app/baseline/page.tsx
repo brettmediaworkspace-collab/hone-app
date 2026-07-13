@@ -7,6 +7,7 @@ import FlashGame from '@/components/games/FlashGame'
 import NBackGame from '@/components/games/NBackGame'
 import { loadState, saveBaseline, getMuscleColor } from '@/lib/gameState'
 import { calcSetScore, SetScore, TrialResult } from '@/lib/scoring'
+import { useAuth } from '@/lib/auth'
 
 // Three quick rounds sample three distinct muscle groups.
 // MEMORY is a Pro muscle — sampling it in the baseline is deliberate:
@@ -100,6 +101,52 @@ export default function BaselinePage() {
   )
 }
 
+// Shown right after the score reveal — the moment users care most about
+// keeping their progress. Hidden when already linked or auth is unavailable.
+function SaveScoreCard() {
+  const { user, isLinked, signInWithGoogle } = useAuth()
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState(false)
+
+  if (!user || isLinked) return null
+
+  async function handleSave() {
+    setBusy(true)
+    setError(false)
+    try {
+      await signInWithGoogle()
+    } catch {
+      setError(true)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div className="rounded-2xl border border-hone-green/40 bg-hone-green/5 p-4 mb-8 text-left">
+      <p className="text-sm font-bold text-hone-text mb-1">
+        Don&apos;t lose this score
+      </p>
+      <p className="text-xs text-hone-muted leading-relaxed mb-3">
+        Save your baseline to a free account — your progress syncs across
+        devices.
+      </p>
+      <button
+        onClick={handleSave}
+        disabled={busy}
+        className="w-full py-3 rounded-xl font-mono font-bold uppercase tracking-widest text-xs text-hone-text bg-hone-surface border border-hone-border transition-opacity active:opacity-80 disabled:opacity-50"
+      >
+        {busy ? 'Connecting…' : 'Continue with Google'}
+      </button>
+      {error && (
+        <p className="text-xs text-hone-red mt-2">
+          Couldn&apos;t connect — your score is saved on this device.
+        </p>
+      )}
+    </div>
+  )
+}
+
 function IntroScreen({ name, onStart }: { name: string; onStart: () => void }) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-6 text-center animate-slide-up">
@@ -160,17 +207,14 @@ function Interstitial({
 
   useEffect(() => {
     const iv = setInterval(() => {
-      setCountdown(c => {
-        if (c <= 1) {
-          clearInterval(iv)
-          onNext()
-          return 0
-        }
-        return c - 1
-      })
+      setCountdown(c => Math.max(0, c - 1))
     }, 1000)
     return () => clearInterval(iv)
-  }, [onNext])
+  }, [])
+
+  useEffect(() => {
+    if (countdown === 0) onNext()
+  }, [countdown, onNext])
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-6 text-center animate-slide-up">
@@ -323,7 +367,7 @@ function RevealScreen({
             </p>
           </div>
 
-          <div className="bg-hone-card border border-hone-border rounded-2xl p-4 mb-8 text-left">
+          <div className="bg-hone-card border border-hone-border rounded-2xl p-4 mb-6 text-left">
             <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-2">
               KOVA
             </p>
@@ -332,6 +376,8 @@ function RevealScreen({
               watch this number move.&rdquo;
             </p>
           </div>
+
+          <SaveScoreCard />
 
           <button
             onClick={() => router.push('/')}

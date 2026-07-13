@@ -54,9 +54,17 @@ export function loadState(): AppState {
   }
 }
 
+// Cloud sync hook — registered by AuthProvider to mirror saves to
+// Firestore. Kept as a callback to avoid a gameState ↔ cloudSync cycle.
+let syncListener: (() => void) | null = null
+export function setSyncListener(fn: (() => void) | null) {
+  syncListener = fn
+}
+
 export function saveState(state: AppState): void {
   if (typeof window === 'undefined') return
   localStorage.setItem('hone:state', JSON.stringify(state))
+  syncListener?.()
 }
 
 export function saveProfile(profile: UserProfile): AppState {

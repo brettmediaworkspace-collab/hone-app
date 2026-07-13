@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import { AuthProvider } from '@/lib/auth'
 
 export const metadata: Metadata = {
   title: 'HONE — Sharpen Daily',
@@ -28,9 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
       <body className="bg-hone-bg text-hone-text antialiased">
-        <div className="min-h-screen max-w-md mx-auto relative">
-          {children}
-        </div>
+        <AuthProvider>
+          <div className="min-h-screen max-w-md mx-auto relative">
+            {children}
+          </div>
+        </AuthProvider>
         <script
           dangerouslySetInnerHTML={{
             __html: `
