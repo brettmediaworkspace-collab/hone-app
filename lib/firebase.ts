@@ -6,7 +6,9 @@ import { getFirestore } from 'firebase/firestore'
 // `hone_users` collection by security rules.
 const firebaseConfig = {
   apiKey: 'AIzaSyCRseZ2YiIU-thua_CmpF5j2iCPIgnjueA',
-  authDomain: 'appsplosh.com',
+  // firebaseapp.com is hosted by Firebase itself — immune to our DNS.
+  // (appsplosh.com as authDomain broke sign-in when its records vanished.)
+  authDomain: 'appsplosh-86e73.firebaseapp.com',
   projectId: 'appsplosh-86e73',
   storageBucket: 'appsplosh-86e73.firebasestorage.app',
   messagingSenderId: '1081771279286',
