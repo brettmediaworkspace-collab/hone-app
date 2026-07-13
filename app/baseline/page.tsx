@@ -7,7 +7,7 @@ import FlashGame from '@/components/games/FlashGame'
 import NBackGame from '@/components/games/NBackGame'
 import { loadState, saveBaseline, getMuscleColor } from '@/lib/gameState'
 import { calcSetScore, SetScore, TrialResult } from '@/lib/scoring'
-import { useAuth } from '@/lib/auth'
+import SaveProgressCard from '@/components/SaveProgressCard'
 import { playCelebration, playTick } from '@/lib/feedback'
 
 // Three quick rounds sample three distinct muscle groups.
@@ -98,52 +98,6 @@ export default function BaselinePage() {
       )}
 
       {phase === 'reveal' && <RevealScreen name={name} scores={scores} />}
-    </div>
-  )
-}
-
-// Shown right after the score reveal — the moment users care most about
-// keeping their progress. Hidden when already linked or auth is unavailable.
-function SaveScoreCard() {
-  const { user, isLinked, signInWithGoogle } = useAuth()
-  const [busy, setBusy] = useState(false)
-  const [error, setError] = useState(false)
-
-  if (!user || isLinked) return null
-
-  async function handleSave() {
-    setBusy(true)
-    setError(false)
-    try {
-      await signInWithGoogle()
-    } catch {
-      setError(true)
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  return (
-    <div className="rounded-2xl border border-hone-green/40 bg-hone-green/5 p-4 mb-8 text-left">
-      <p className="text-sm font-bold text-hone-text mb-1">
-        Don&apos;t lose this score
-      </p>
-      <p className="text-xs text-hone-muted leading-relaxed mb-3">
-        Save your baseline to a free account — your progress syncs across
-        devices.
-      </p>
-      <button
-        onClick={handleSave}
-        disabled={busy}
-        className="w-full py-3 rounded-xl font-mono font-bold uppercase tracking-widest text-xs text-hone-text bg-hone-surface border border-hone-border transition-opacity active:opacity-80 disabled:opacity-50"
-      >
-        {busy ? 'Connecting…' : 'Continue with Google'}
-      </button>
-      {error && (
-        <p className="text-xs text-hone-red mt-2">
-          Couldn&apos;t connect — your score is saved on this device.
-        </p>
-      )}
     </div>
   )
 }
@@ -380,7 +334,7 @@ function RevealScreen({
             </p>
           </div>
 
-          <SaveScoreCard />
+          <SaveProgressCard />
 
           <button
             onClick={() => router.push('/')}

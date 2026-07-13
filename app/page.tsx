@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { loadState, AppState, getMuscleColor, getGoalSplit } from '@/lib/gameState'
 import { getSubscription, canStartSession, isFreeMuscle } from '@/lib/subscription'
 import PaywallScreen from '@/components/PaywallScreen'
+import SaveProgressCard from '@/components/SaveProgressCard'
 
 const MUSCLE_GROUPS = ['FOCUS', 'SPEED', 'MEMORY', 'LOGIC', 'WORDS', 'CONTROL'] as const
 
@@ -154,6 +155,11 @@ function HomeTab({
           {dayName} · DAY {sessionCount}
         </p>
       </div>
+
+      <SaveProgressCard
+        title="Save your progress"
+        body="Create a free account so your HONE Score and streak survive this device."
+      />
 
       {/* HONE Score card */}
       <div className="bg-hone-card border border-hone-border rounded-2xl p-5 mb-4">
