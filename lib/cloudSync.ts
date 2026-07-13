@@ -9,7 +9,7 @@
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
 import { db, auth } from '@/lib/firebase'
 import { AppState, loadState, saveState } from '@/lib/gameState'
-import { getSubscription } from '@/lib/subscription'
+import { getSubscription, saveSubscription, Plan } from '@/lib/subscription'
 
 const COLLECTION = 'hone_users'
 
@@ -45,6 +45,20 @@ export async function pullRemoteState(uid: string): Promise<boolean> {
   try {
     const snap = await getDoc(userDoc(uid))
     if (!snap.exists()) return false
+
+    // The server-verified subscription (written only by the payments
+    // webhook) always wins over the local cache — grants follow the
+    // account onto new devices, revocations propagate too.
+    const serverSub = snap.data()?.subscription
+    if (serverSub && typeof serverSub.isPro === 'boolean') {
+      saveSubscription({
+        isPro: serverSub.isPro,
+        plan: (serverSub.plan ?? 'free') as Plan,
+        expiresAt: serverSub.expiresAt ?? null,
+        stripeSessionId: serverSub.lsId ?? null,
+      })
+    }
+
     const remote = snap.data()?.state as AppState | undefined
     if (!remote?.profile) return false
 

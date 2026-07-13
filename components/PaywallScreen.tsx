@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { auth } from '@/lib/firebase'
 
 interface PaywallScreenProps {
   trigger: 'muscle' | 'daily-limit' | 'streak' | 'share' | 'difficulty' | 'general'
@@ -53,7 +54,12 @@ export default function PaywallScreen({
     const origin = window.location.origin
     const successUrl = encodeURIComponent(`${origin}/success?plan=${plan}`)
     const cancelUrl  = encodeURIComponent(`${origin}/`)
-    window.location.href = `${baseUrl}?checkout[success_url]=${successUrl}&checkout[cancel_url]=${cancelUrl}`
+    // uid + plan travel via checkout custom data — the payments webhook
+    // uses them to grant Pro server-side. Without a uid the webhook
+    // cannot credit the purchase.
+    const uid = auth.currentUser?.uid ?? ''
+    const custom = `&checkout[custom][uid]=${encodeURIComponent(uid)}&checkout[custom][plan]=${plan}`
+    window.location.href = `${baseUrl}?checkout[success_url]=${successUrl}&checkout[cancel_url]=${cancelUrl}${custom}`
   }
 
   return (
