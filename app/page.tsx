@@ -6,6 +6,8 @@ import { loadState, AppState, getMuscleColor, getGoalSplit } from '@/lib/gameSta
 import { getSubscription, canStartSession, isFreeMuscle } from '@/lib/subscription'
 import PaywallScreen from '@/components/PaywallScreen'
 import SaveProgressCard from '@/components/SaveProgressCard'
+import RadarChart from '@/components/RadarChart'
+import Sparkline from '@/components/Sparkline'
 
 const MUSCLE_GROUPS = ['FOCUS', 'SPEED', 'MEMORY', 'LOGIC', 'WORDS', 'CONTROL'] as const
 
@@ -167,11 +169,15 @@ function HomeTab({
           Your HONE Score
         </p>
         {honesScore > 0 ? (
-          <div className="flex items-end gap-3 mb-4">
-            <p className="font-mono font-black text-7xl leading-none text-hone-text">
+          <div className="relative flex items-end gap-3 mb-4">
+            <div
+              className="absolute -inset-6 pointer-events-none"
+              style={{ background: 'radial-gradient(ellipse at 30% 50%, rgba(184,245,60,0.14), transparent 65%)' }}
+            />
+            <p className="relative font-mono font-black text-8xl leading-none text-hone-text">
               {honesScore}
             </p>
-            <p className="text-hone-muted text-sm mb-2 font-mono">/ 1000</p>
+            <p className="relative text-hone-muted text-sm mb-2 font-mono">/ 1000</p>
           </div>
         ) : (
           <a
@@ -296,6 +302,36 @@ function ProgressTab({
     <div className="px-4 pt-8">
       <h2 className="font-black text-xl mb-6">Progress</h2>
 
+      {/* Radar — the body scan */}
+      <div className="bg-hone-card border border-hone-border rounded-2xl p-4 mb-4">
+        <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-1">
+          Muscle Scan
+        </p>
+        <RadarChart scores={muscleScores} />
+        {Object.values(muscleScores).every(v => v === 0) && (
+          <p className="text-xs text-hone-muted text-center -mt-2 pb-1">
+            Your shape appears as you train. Six muscles. Fill the ring.
+          </p>
+        )}
+      </div>
+
+      {/* Score trend */}
+      {sessionHistory.length >= 2 && (
+        <div className="bg-hone-card border border-hone-border rounded-2xl p-4 mb-4">
+          <div className="flex items-baseline justify-between mb-2">
+            <p className="text-xs font-mono text-hone-muted uppercase tracking-widest">
+              HONE Score Trend
+            </p>
+            <p className="text-xs font-mono text-hone-muted">
+              last {Math.min(30, sessionHistory.length)} sessions
+            </p>
+          </div>
+          <Sparkline
+            values={[...sessionHistory].slice(0, 30).reverse().map(s => s.honesScore)}
+          />
+        </div>
+      )}
+
       {/* Muscle group bars */}
       <div className="bg-hone-card border border-hone-border rounded-2xl p-5 mb-4">
         <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-4">
@@ -370,8 +406,12 @@ function ProgressTab({
       )}
 
       {sessionHistory.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-hone-muted text-sm">No sessions yet. Start training.</p>
+        <div className="bg-hone-card border border-hone-border rounded-2xl p-5 text-center">
+          <p className="text-sm font-bold text-hone-text mb-1">Week 1 starts today</p>
+          <p className="text-xs text-hone-muted leading-relaxed max-w-xs mx-auto">
+            Every session plots a point on your trend line and reshapes your
+            scan. Most people see their first score jump inside 7 days.
+          </p>
         </div>
       )}
     </div>
