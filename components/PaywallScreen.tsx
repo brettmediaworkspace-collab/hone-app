@@ -191,7 +191,15 @@ export default function PaywallScreen({
         </div>
 
         <p className="text-xs text-hone-muted text-center max-w-xs leading-relaxed">
-          Subscriptions renew automatically. Cancel anytime. VAT included. Payment processed securely by Lemon Squeezy.
+          Subscriptions renew automatically. Cancel anytime. VAT included.
+          14-day refund guarantee.
+        </p>
+        <p className="text-xs font-mono text-hone-muted text-center mt-3">
+          <a href="/terms" className="underline">Terms</a>
+          {' · '}
+          <a href="/privacy" className="underline">Privacy</a>
+          {' · '}
+          <a href="/refunds" className="underline">Refunds</a>
         </p>
       </div>
     </div>

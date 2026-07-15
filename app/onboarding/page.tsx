@@ -65,6 +65,13 @@ export default function OnboardingPage() {
           </button>
 
           <p className="text-hone-muted text-xs mt-4 font-mono">Free · No credit card</p>
+          <p className="text-hone-muted/60 text-xs mt-6 font-mono">
+            <a href="/terms" className="underline">Terms</a>
+            {' · '}
+            <a href="/privacy" className="underline">Privacy</a>
+            {' · '}
+            <a href="/refunds" className="underline">Refunds</a>
+          </p>
         </div>
       )}
 
