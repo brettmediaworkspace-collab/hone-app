@@ -7,7 +7,7 @@ export default function PrivacyPage() {
     <LegalPage title="Privacy Policy" updated="13 July 2026">
       <p>
         This policy explains what data HONE collects, why, and your rights.
-        HONE is operated by Brett Media, based in the United Kingdom. We keep
+        HONE is operated by Appsplosh, based in the United Kingdom. We keep
         data collection deliberately minimal.
       </p>
 
@@ -78,7 +78,7 @@ export default function PrivacyPage() {
 
       <H>10. Contact</H>
       <p>
-        Data controller: Brett Media —{' '}
+        Data controller: Appsplosh —{' '}
         <a href="mailto:office@appsplosh.com" className="text-hone-green underline">
           office@appsplosh.com
         </a>

@@ -7,7 +7,7 @@ export default function TermsPage() {
     <LegalPage title="Terms of Service" updated="13 July 2026">
       <p>
         These terms govern your use of HONE (the &ldquo;Service&rdquo;), a
-        cognitive training application operated by Brett Media
+        cognitive training application operated by Appsplosh
         (&ldquo;we&rdquo;, &ldquo;us&rdquo;), available at hone.appsplosh.com
         and app.hone.appsplosh.com. By using HONE you agree to these terms.
       </p>
@@ -63,7 +63,7 @@ export default function TermsPage() {
       <H>6. Intellectual property</H>
       <p>
         The Service, including its games, design, branding, scoring system, and
-        content, is owned by Brett Media. You receive a personal,
+        content, is owned by Appsplosh. You receive a personal,
         non-transferable licence to use it. Your training data remains yours.
       </p>
 
@@ -100,7 +100,7 @@ export default function TermsPage() {
 
       <H>11. Contact</H>
       <p>
-        Brett Media — email:{' '}
+        Appsplosh — email:{' '}
         <a href="mailto:office@appsplosh.com" className="text-hone-green underline">
           office@appsplosh.com
         </a>
