@@ -101,8 +101,8 @@ export default function TermsPage() {
       <H>11. Contact</H>
       <p>
         Brett Media — email:{' '}
-        <a href="mailto:brettmediaworkspace@gmail.com" className="text-hone-green underline">
-          brettmediaworkspace@gmail.com
+        <a href="mailto:office@appsplosh.com" className="text-hone-green underline">
+          office@appsplosh.com
         </a>
       </p>
     </LegalPage>

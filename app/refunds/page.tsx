@@ -48,8 +48,8 @@ export default function RefundsPage() {
       <H>5. How to request a refund</H>
       <p>
         Email{' '}
-        <a href="mailto:brettmediaworkspace@gmail.com" className="text-hone-green underline">
-          brettmediaworkspace@gmail.com
+        <a href="mailto:office@appsplosh.com" className="text-hone-green underline">
+          office@appsplosh.com
         </a>{' '}
         with the email address used at checkout (or your receipt). Refunds are
         processed by our payment provider back to your original payment method,

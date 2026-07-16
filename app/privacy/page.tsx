@@ -79,8 +79,8 @@ export default function PrivacyPage() {
       <H>10. Contact</H>
       <p>
         Data controller: Brett Media —{' '}
-        <a href="mailto:brettmediaworkspace@gmail.com" className="text-hone-green underline">
-          brettmediaworkspace@gmail.com
+        <a href="mailto:office@appsplosh.com" className="text-hone-green underline">
+          office@appsplosh.com
         </a>
       </p>
     </LegalPage>
