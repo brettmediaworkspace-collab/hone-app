@@ -26,7 +26,13 @@ const TRIGGER_COPY: Record<string, { headline: string; sub: string }> = {
   general:       { headline: 'Unlock HONE Pro',              sub: 'Full access to all 6 muscle groups, unlimited sessions, and adaptive difficulty.' },
 }
 
-// Lemon Squeezy hosted checkout URLs — set these in .env.local
+// Hosted checkout URLs. Polar takes precedence; Lemon Squeezy is the
+// fallback so either provider can be switched on via env vars alone.
+const POLAR_URLS: Record<string, string | undefined> = {
+  monthly:  process.env.NEXT_PUBLIC_POLAR_MONTHLY_URL,
+  annual:   process.env.NEXT_PUBLIC_POLAR_ANNUAL_URL,
+  lifetime: process.env.NEXT_PUBLIC_POLAR_LIFETIME_URL,
+}
 const LS_URLS: Record<string, string | undefined> = {
   monthly:  process.env.NEXT_PUBLIC_LS_MONTHLY_URL,
   annual:   process.env.NEXT_PUBLIC_LS_ANNUAL_URL,
@@ -45,19 +51,30 @@ export default function PaywallScreen({
   const accentColor = muscleGroup ? (MUSCLE_COLOR[muscleGroup] ?? '#B8F53C') : '#B8F53C'
 
   function checkout(plan: 'monthly' | 'annual' | 'lifetime') {
+    // uid travels to the payments webhook via checkout parameters — the
+    // webhook grants Pro server-side and cannot credit a purchase
+    // without it.
+    const uid = auth.currentUser?.uid ?? ''
+    setLoading(plan)
+
+    const polarUrl = POLAR_URLS[plan]
+    if (polarUrl) {
+      const sep = polarUrl.includes('?') ? '&' : '?'
+      window.location.href =
+        `${polarUrl}${sep}customer_external_id=${encodeURIComponent(uid)}` +
+        `&metadata[uid]=${encodeURIComponent(uid)}&metadata[plan]=${plan}`
+      return
+    }
+
     const baseUrl = LS_URLS[plan]
     if (!baseUrl) {
+      setLoading(null)
       alert('Checkout not configured yet — check back soon.')
       return
     }
-    setLoading(plan)
     const origin = window.location.origin
     const successUrl = encodeURIComponent(`${origin}/success?plan=${plan}`)
     const cancelUrl  = encodeURIComponent(`${origin}/`)
-    // uid + plan travel via checkout custom data — the payments webhook
-    // uses them to grant Pro server-side. Without a uid the webhook
-    // cannot credit the purchase.
-    const uid = auth.currentUser?.uid ?? ''
     const custom = `&checkout[custom][uid]=${encodeURIComponent(uid)}&checkout[custom][plan]=${plan}`
     window.location.href = `${baseUrl}?checkout[success_url]=${successUrl}&checkout[cancel_url]=${cancelUrl}${custom}`
   }
