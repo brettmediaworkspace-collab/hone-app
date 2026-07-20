@@ -132,6 +132,14 @@ export async function POST(req: NextRequest) {
   const event = payload.type ?? ''
   const uid = resolveUid(payload)
 
+  console.log('[polar-event]', JSON.stringify({
+    event,
+    uid: uid ? uid.slice(0, 10) + '…' : null,
+    externalId: payload.data?.customer?.external_id ?? null,
+    orderMeta: payload.data?.metadata ?? null,
+    checkoutMeta: payload.data?.checkout?.metadata ?? null,
+  }))
+
   if (!uid) {
     return NextResponse.json({ ok: true, note: 'no uid on event' })
   }
