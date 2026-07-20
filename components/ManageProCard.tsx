@@ -1,71 +1,122 @@
 'use client'
 
 import { auth } from '@/lib/firebase'
-import { Plan } from '@/lib/subscription'
+import { Plan, getSubscription } from '@/lib/subscription'
 
-const PLAN_LABEL: Record<string, string> = {
-  monthly: 'Monthly · £2.99/mo',
-  annual: 'Annual · £24.99/yr',
-  lifetime: 'Lifetime',
-}
+// Shown on Home for Pro users: all three tiers with the current plan
+// clearly marked at its level, upgrade taps on higher tiers, renewal
+// date, and the Polar billing portal.
+// Upgrades route through /api/checkout; the webhook auto-cancels the
+// old subscription when a higher plan is paid, so nobody double-pays.
 
-// Shown on Home for Pro users: current plan, upgrade paths, billing portal.
-// Upgrades route through /api/checkout; the webhook auto-cancels the old
-// subscription when a higher plan is paid, so nobody double-pays.
+const TIERS: { id: Plan; name: string; price: string; blurb: string }[] = [
+  { id: 'monthly', name: 'Monthly', price: '£2.99/mo', blurb: 'Cancel anytime' },
+  { id: 'annual', name: 'Annual', price: '£24.99/yr', blurb: 'Save 30%' },
+  { id: 'lifetime', name: 'Lifetime', price: '£99.99 once', blurb: 'Pay once, own forever' },
+]
+
+const RANK: Record<string, number> = { monthly: 0, annual: 1, lifetime: 2 }
+
 export default function ManageProCard({ plan }: { plan: Plan }) {
-  const uid = () => encodeURIComponent(auth.currentUser?.uid ?? '')
+  const rank = RANK[plan] ?? 0
+  const expiresAt = getSubscription().expiresAt
+  const renewText =
+    plan === 'lifetime'
+      ? 'Yours forever — nothing renews.'
+      : expiresAt
+      ? `Renews ${new Date(expiresAt).toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        })}`
+      : null
 
-  function upgrade(target: 'annual' | 'lifetime') {
-    window.location.href = `/api/checkout?plan=${target}&uid=${uid()}`
+  function upgrade(target: Plan) {
+    const uid = encodeURIComponent(auth.currentUser?.uid ?? '')
+    window.location.href = `/api/checkout?plan=${target}&uid=${uid}`
   }
 
   return (
     <div className="bg-hone-card border border-hone-border rounded-2xl p-4 mb-4">
-      <div className="flex items-center justify-between mb-1">
+      <div className="flex items-baseline justify-between mb-3">
         <p className="text-xs font-mono text-hone-muted uppercase tracking-widest">
-          HONE Pro
+          Your membership
         </p>
-        <span
-          className="text-xs font-mono px-2 py-0.5 rounded-full"
-          style={{ backgroundColor: '#B8F53C20', color: '#B8F53C' }}
-        >
-          {PLAN_LABEL[plan] ?? 'Active'}
-        </span>
+        {renewText && (
+          <p className="text-xs font-mono text-hone-muted">{renewText}</p>
+        )}
       </div>
 
-      {plan !== 'lifetime' && (
-        <div className="flex flex-col gap-2 mt-3">
-          {plan === 'monthly' && (
-            <button
-              onClick={() => upgrade('annual')}
-              className="w-full py-3 rounded-xl text-left px-4 border transition-all active:scale-98 flex items-center justify-between"
-              style={{ borderColor: '#B8F53C60', backgroundColor: '#B8F53C0d' }}
-            >
-              <span className="text-sm font-bold text-hone-text">
-                Switch to Annual
-                <span className="text-xs text-hone-muted font-normal ml-2">
-                  save 30%
+      <div className="flex flex-col gap-2">
+        {TIERS.map(tier => {
+          const isCurrent = tier.id === plan
+          const isUpgrade = RANK[tier.id] > rank
+
+          if (isCurrent) {
+            return (
+              <div
+                key={tier.id}
+                className="w-full py-3 px-4 rounded-xl border-2 flex items-center justify-between"
+                style={{ borderColor: '#B8F53C', backgroundColor: '#B8F53C0d' }}
+              >
+                <div>
+                  <p className="text-sm font-bold text-hone-text">
+                    {tier.name}
+                    <span className="text-xs text-hone-muted font-normal ml-2">
+                      {tier.price}
+                    </span>
+                  </p>
+                </div>
+                <span
+                  className="text-xs font-mono font-bold px-2.5 py-1 rounded-full uppercase tracking-widest"
+                  style={{ backgroundColor: '#B8F53C', color: '#0A0A0F' }}
+                >
+                  ✓ Your plan
                 </span>
-              </span>
-              <span className="text-sm font-bold" style={{ color: '#B8F53C' }}>→</span>
-            </button>
-          )}
-          <button
-            onClick={() => upgrade('lifetime')}
-            className="w-full py-3 rounded-xl text-left px-4 border border-hone-border bg-hone-surface transition-all active:scale-98 flex items-center justify-between"
-          >
-            <span className="text-sm font-bold text-hone-text">
-              Go Lifetime
-              <span className="text-xs text-hone-muted font-normal ml-2">
-                pay once, own forever
-              </span>
-            </span>
-            <span className="text-sm font-bold text-hone-muted">→</span>
-          </button>
-          <p className="text-xs text-hone-muted leading-relaxed">
-            Upgrading ends your current plan automatically — no double billing.
-          </p>
-        </div>
+              </div>
+            )
+          }
+
+          if (isUpgrade) {
+            return (
+              <button
+                key={tier.id}
+                onClick={() => upgrade(tier.id)}
+                className="w-full py-3 px-4 rounded-xl border border-hone-border bg-hone-surface transition-all active:scale-98 flex items-center justify-between text-left"
+              >
+                <p className="text-sm font-bold text-hone-text">
+                  {tier.name}
+                  <span className="text-xs text-hone-muted font-normal ml-2">
+                    {tier.price} · {tier.blurb}
+                  </span>
+                </p>
+                <span className="text-xs font-mono font-bold" style={{ color: '#B8F53C' }}>
+                  UPGRADE →
+                </span>
+              </button>
+            )
+          }
+
+          // Lower tier than current — included, dimmed
+          return (
+            <div
+              key={tier.id}
+              className="w-full py-3 px-4 rounded-xl border border-hone-border/50 flex items-center justify-between opacity-50"
+            >
+              <p className="text-sm font-bold text-hone-muted">
+                {tier.name}
+                <span className="text-xs font-normal ml-2">{tier.price}</span>
+              </p>
+              <span className="text-xs font-mono text-hone-muted">included</span>
+            </div>
+          )
+        })}
+      </div>
+
+      {rank < 2 && (
+        <p className="text-xs text-hone-muted leading-relaxed mt-3">
+          Upgrading ends your current plan automatically — no double billing.
+        </p>
       )}
 
       <a
