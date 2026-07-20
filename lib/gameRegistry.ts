@@ -5,9 +5,13 @@ import OddOneGame from '@/components/games/OddOneGame'
 import FlashGame from '@/components/games/FlashGame'
 import ChoiceGame from '@/components/games/ChoiceGame'
 import InhibitGame from '@/components/games/InhibitGame'
+import StroopGame from '@/components/games/StroopGame'
 import NBackGame from '@/components/games/NBackGame'
+import SequenceGame from '@/components/games/SequenceGame'
 import MatrixGame from '@/components/games/MatrixGame'
+import NumberSeqGame from '@/components/games/NumberSeqGame'
 import WordGame from '@/components/games/WordGame'
+import WordsOddGame from '@/components/games/WordsOddGame'
 
 // Shared prop shape every game component implements.
 export interface GameProps {
@@ -24,10 +28,10 @@ export interface GameProps {
 export const MUSCLE_GAMES: Record<string, ComponentType<GameProps>[]> = {
   FOCUS: [LockOnGame, OddOneGame],
   SPEED: [FlashGame, ChoiceGame],
-  MEMORY: [NBackGame],
-  LOGIC: [MatrixGame],
-  WORDS: [WordGame],
-  CONTROL: [InhibitGame],
+  MEMORY: [NBackGame, SequenceGame],
+  LOGIC: [MatrixGame, NumberSeqGame],
+  WORDS: [WordGame, WordsOddGame],
+  CONTROL: [InhibitGame, StroopGame],
 }
 
 // Rotate variants across sessions and sets so daily training doesn't
