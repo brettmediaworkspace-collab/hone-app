@@ -25,20 +25,30 @@ function verifySignature(req: NextRequest, rawBody: string): boolean {
   const sigHeader = req.headers.get('webhook-signature')
   if (!secretRaw || !id || !timestamp || !sigHeader) return false
 
-  const secret = Buffer.from(secretRaw.replace(/^whsec_/, ''), 'base64')
-  const expected = crypto
-    .createHmac('sha256', secret)
-    .update(`${id}.${timestamp}.${rawBody}`)
-    .digest('base64')
+  // Polar dashboard secrets are plain strings that Polar's SDK
+  // base64-ENCODES before handing to the Standard Webhooks signer, while
+  // the spec's whsec_ secrets are base64 to DECODE. Accept both keyings
+  // so either secret format verifies.
+  const stripped = secretRaw.replace(/^whsec_/, '')
+  const keys = [
+    Buffer.from(stripped, 'utf8'),      // Polar: raw string as key
+    Buffer.from(stripped, 'base64'),    // Standard Webhooks: decoded key
+  ]
+  const signedContent = `${id}.${timestamp}.${rawBody}`
+  const expectations = keys.map(k =>
+    crypto.createHmac('sha256', k).update(signedContent).digest('base64')
+  )
 
   // Header may contain multiple space-delimited "v1,<sig>" entries.
   return sigHeader.split(' ').some(part => {
     const sig = part.includes(',') ? part.split(',')[1] : part
-    try {
-      return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))
-    } catch {
-      return false
-    }
+    return expectations.some(expected => {
+      try {
+        return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))
+      } catch {
+        return false
+      }
+    })
   })
 }
 
