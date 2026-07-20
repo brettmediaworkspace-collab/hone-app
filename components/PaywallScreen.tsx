@@ -59,10 +59,11 @@ export default function PaywallScreen({
 
     const polarUrl = POLAR_URLS[plan]
     if (polarUrl) {
-      const sep = polarUrl.includes('?') ? '&' : '?'
+      // Server-side checkout creation — static Polar links ignore
+      // metadata query params, so /api/checkout attaches the uid via
+      // Polar's API and redirects to the session it creates.
       window.location.href =
-        `${polarUrl}${sep}customer_external_id=${encodeURIComponent(uid)}` +
-        `&metadata[uid]=${encodeURIComponent(uid)}&metadata[plan]=${plan}`
+        `/api/checkout?plan=${plan}&uid=${encodeURIComponent(uid)}`
       return
     }
 
