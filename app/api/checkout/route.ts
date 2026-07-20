@@ -60,6 +60,13 @@ export async function GET(req: NextRequest) {
     const products = await resolveProducts(token)
     const origin = req.nextUrl.origin
 
+    // Pre-fill billing country from the visitor's geo (Vercel edge
+    // header) so most buyers never touch the country dropdown.
+    const country = (req.headers.get('x-vercel-ip-country') ?? '').toUpperCase()
+    const billingAddress = /^[A-Z]{2}$/.test(country)
+      ? { customer_billing_address: { country } }
+      : {}
+
     const res = await fetch(`${POLAR_API}/checkouts`, {
       method: 'POST',
       headers: {
@@ -69,6 +76,7 @@ export async function GET(req: NextRequest) {
       body: JSON.stringify({
         products: [products[plan]],
         success_url: `${origin}/success?plan=${plan}`,
+        ...billingAddress,
         ...(uid
           ? {
               external_customer_id: uid,

@@ -8,6 +8,8 @@ import PaywallScreen from '@/components/PaywallScreen'
 import SaveProgressCard from '@/components/SaveProgressCard'
 import RadarChart from '@/components/RadarChart'
 import Sparkline from '@/components/Sparkline'
+import ManageProCard from '@/components/ManageProCard'
+import { Plan } from '@/lib/subscription'
 
 const MUSCLE_GROUPS = ['FOCUS', 'SPEED', 'MEMORY', 'LOGIC', 'WORDS', 'CONTROL'] as const
 
@@ -16,7 +18,7 @@ export default function HomePage() {
   const [state, setState] = useState<AppState | null>(null)
   const [tab, setTab] = useState<'home' | 'progress'>('home')
   const [paywall, setPaywall] = useState<{ trigger: 'daily-limit' | 'streak' | 'general' } | null>(null)
-  const [proState, setProState] = useState({ isPro: false })
+  const [proState, setProState] = useState({ isPro: false, plan: 'free' as Plan })
 
   useEffect(() => {
     const s = loadState()
@@ -82,6 +84,7 @@ export default function HomePage() {
             lastPRDays={lastPRDays}
             trainedToday={trainedToday}
             isPro={proState.isPro}
+            proPlan={proState.plan}
           onStartSession={handleStartSession}
           onShowPaywall={() => setPaywall({ trigger: 'general' })}
           />
@@ -129,6 +132,7 @@ function HomeTab({
   lastPRDays,
   trainedToday,
   isPro,
+  proPlan,
   onStartSession,
   onShowPaywall,
 }: {
@@ -141,6 +145,7 @@ function HomeTab({
   lastPRDays: number | null
   trainedToday: boolean
   isPro: boolean
+  proPlan: Plan
   onStartSession: () => void
   onShowPaywall: () => void
 }) {
@@ -221,6 +226,8 @@ function HomeTab({
           })}
         </div>
       </div>
+
+      {isPro && <ManageProCard plan={proPlan} />}
 
       {/* Today's workout */}
       <div className="bg-hone-card border border-hone-border rounded-2xl p-5 mb-4">

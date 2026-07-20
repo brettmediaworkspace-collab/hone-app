@@ -40,19 +40,6 @@ function verifySignature(req: NextRequest, rawBody: string): boolean {
     crypto.createHmac('sha256', k).update(signedContent).digest('base64')
   )
 
-  // TEMP DIAGNOSTIC (remove after verification works): non-sensitive
-  // shape info only — secret length + signature prefixes.
-  console.log('[polar-verify]', JSON.stringify({
-    secretLen: secretRaw.length,
-    secretHasWhsec: secretRaw.startsWith('whsec_'),
-    headerSig: sigHeader.slice(0, 14),
-    expectedFull: expectations[0].slice(0, 8),
-    expectedUtf8: expectations[1].slice(0, 8),
-    expectedB64: expectations[2].slice(0, 8),
-    id: id.slice(0, 12),
-    timestamp,
-  }))
-
   // Header may contain multiple space-delimited "v1,<sig>" entries.
   return sigHeader.split(' ').some(part => {
     const sig = part.includes(',') ? part.split(',')[1] : part
@@ -132,14 +119,6 @@ export async function POST(req: NextRequest) {
   const event = payload.type ?? ''
   const uid = resolveUid(payload)
 
-  console.log('[polar-event]', JSON.stringify({
-    event,
-    uid: uid ? uid.slice(0, 10) + '…' : null,
-    externalId: payload.data?.customer?.external_id ?? null,
-    orderMeta: payload.data?.metadata ?? null,
-    checkoutMeta: payload.data?.checkout?.metadata ?? null,
-  }))
-
   if (!uid) {
     return NextResponse.json({ ok: true, note: 'no uid on event' })
   }
@@ -172,6 +151,16 @@ export async function POST(req: NextRequest) {
       },
       { merge: true }
     )
+
+    // Upgrades: end any other active Polar subscription for this customer
+    // so nobody pays twice (monthly keeps running until its period ends —
+    // they paid for it — but won't renew).
+    if (event === 'order.paid' && (plan === 'annual' || plan === 'lifetime')) {
+      await cancelSupersededSubscriptions(uid, payload).catch(e =>
+        console.error('[polar] auto-cancel failed', e)
+      )
+    }
+
     return NextResponse.json({ ok: true, granted: plan })
   }
 
@@ -201,4 +190,33 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ ok: true, note: `ignored event ${event}` })
+}
+
+// Cancels (at period end) every active subscription for the customer
+// except the one belonging to the order that triggered this call.
+async function cancelSupersededSubscriptions(uid: string, payload: PolarPayload) {
+  const token = process.env.POLAR_ACCESS_TOKEN
+  if (!token) return
+  const keepId =
+    (payload.data as { subscription_id?: string } | undefined)?.subscription_id ?? null
+
+  const res = await fetch(
+    `https://api.polar.sh/v1/subscriptions?external_customer_id=${encodeURIComponent(uid)}&active=true&limit=20`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  )
+  if (!res.ok) return
+  const body = await res.json()
+  const items: { id: string; cancel_at_period_end?: boolean }[] = body.items ?? []
+
+  for (const sub of items) {
+    if (sub.id === keepId || sub.cancel_at_period_end) continue
+    await fetch(`https://api.polar.sh/v1/subscriptions/${sub.id}`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ cancel_at_period_end: true }),
+    }).catch(() => {})
+  }
 }
