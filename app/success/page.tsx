@@ -6,6 +6,7 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '@/lib/firebase'
 import { saveSubscription, Plan } from '@/lib/subscription'
+import SaveProgressCard from '@/components/SaveProgressCard'
 
 // Post-checkout landing. Pro is granted ONLY by the Lemon Squeezy
 // webhook writing hone_users/{uid}.subscription server-side; this page
@@ -54,7 +55,7 @@ function SuccessContent() {
           })
           setStatus('confirmed')
           clearTimeout(slowTimer)
-          setTimeout(() => router.replace('/'), 2200)
+          setTimeout(() => router.replace('/'), 6000)
         }
       })
     })
@@ -82,7 +83,13 @@ function SuccessContent() {
           All 6 muscle groups unlocked. Unlimited sessions. Adaptive difficulty
           up to Level 12.
         </p>
-        <p className="text-xs font-mono text-hone-muted mt-6 uppercase tracking-widest animate-pulse">
+        <div className="w-full max-w-xs mt-8 text-left">
+          <SaveProgressCard
+            title="Protect your purchase"
+            body="Link a free account so Pro follows you to any device — even if you lose this one."
+          />
+        </div>
+        <p className="text-xs font-mono text-hone-muted mt-4 uppercase tracking-widest animate-pulse">
           Taking you to HONE…
         </p>
       </div>
