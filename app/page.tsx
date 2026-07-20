@@ -9,6 +9,7 @@ import SaveProgressCard from '@/components/SaveProgressCard'
 import RadarChart from '@/components/RadarChart'
 import Sparkline from '@/components/Sparkline'
 import ManageProCard from '@/components/ManageProCard'
+import MuscleGlyph from '@/components/MuscleGlyph'
 import { Plan } from '@/lib/subscription'
 
 const MUSCLE_GROUPS = ['FOCUS', 'SPEED', 'MEMORY', 'LOGIC', 'WORDS', 'CONTROL'] as const
@@ -207,9 +208,11 @@ function HomeTab({
             const locked = !isPro && !isFreeMuscle(muscle)
             return (
               <div key={muscle} className="flex items-center gap-2">
-                <div
-                  className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: locked ? '#2A2A36' : score > 0 ? color : '#2A2A36' }}
+                <MuscleGlyph
+                  muscle={muscle}
+                  size={18}
+                  color={locked ? '#3A3A4A' : score > 0 ? color : '#4A4A58'}
+                  className="flex-shrink-0"
                 />
                 <div className="min-w-0">
                   <p className="text-xs font-mono truncate" style={{ color: locked ? '#3A3A4A' : '#6B6B80' }}>
@@ -351,7 +354,8 @@ function ProgressTab({
           return (
             <div key={muscle} className="mb-3 last:mb-0">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-sm font-mono font-bold" style={{ color }}>
+                <span className="flex items-center gap-2 text-sm font-mono font-bold" style={{ color }}>
+                  <MuscleGlyph muscle={muscle} size={16} color={color} />
                   {muscle}
                 </span>
                 <span className="text-sm font-mono text-hone-muted">
