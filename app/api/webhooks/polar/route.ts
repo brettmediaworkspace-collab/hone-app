@@ -39,6 +39,18 @@ function verifySignature(req: NextRequest, rawBody: string): boolean {
     crypto.createHmac('sha256', k).update(signedContent).digest('base64')
   )
 
+  // TEMP DIAGNOSTIC (remove after verification works): non-sensitive
+  // shape info only — secret length + signature prefixes.
+  console.log('[polar-verify]', JSON.stringify({
+    secretLen: secretRaw.length,
+    secretHasWhsec: secretRaw.startsWith('whsec_'),
+    headerSig: sigHeader.slice(0, 14),
+    expectedUtf8: expectations[0].slice(0, 8),
+    expectedB64: expectations[1].slice(0, 8),
+    id: id.slice(0, 12),
+    timestamp,
+  }))
+
   // Header may contain multiple space-delimited "v1,<sig>" entries.
   return sigHeader.split(' ').some(part => {
     const sig = part.includes(',') ? part.split(',')[1] : part
