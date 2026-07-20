@@ -31,7 +31,8 @@ function verifySignature(req: NextRequest, rawBody: string): boolean {
   // so either secret format verifies.
   const stripped = secretRaw.replace(/^whsec_/, '')
   const keys = [
-    Buffer.from(stripped, 'utf8'),      // Polar: raw string as key
+    Buffer.from(secretRaw, 'utf8'),     // Polar SDK: full secret incl. whsec_ prefix
+    Buffer.from(stripped, 'utf8'),      // raw string sans prefix
     Buffer.from(stripped, 'base64'),    // Standard Webhooks: decoded key
   ]
   const signedContent = `${id}.${timestamp}.${rawBody}`
@@ -45,8 +46,9 @@ function verifySignature(req: NextRequest, rawBody: string): boolean {
     secretLen: secretRaw.length,
     secretHasWhsec: secretRaw.startsWith('whsec_'),
     headerSig: sigHeader.slice(0, 14),
-    expectedUtf8: expectations[0].slice(0, 8),
-    expectedB64: expectations[1].slice(0, 8),
+    expectedFull: expectations[0].slice(0, 8),
+    expectedUtf8: expectations[1].slice(0, 8),
+    expectedB64: expectations[2].slice(0, 8),
     id: id.slice(0, 12),
     timestamp,
   }))
