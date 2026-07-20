@@ -96,10 +96,20 @@ function SuccessContent() {
         Confirming your payment…
       </p>
       {status === 'slow' && (
-        <p className="text-xs text-hone-muted max-w-xs leading-relaxed">
-          This is taking longer than usual. Your payment is safe — Pro unlocks
-          automatically within a few minutes, even if you close this page.
-        </p>
+        <>
+          <p className="text-xs text-hone-muted max-w-xs leading-relaxed mb-6">
+            This is taking longer than usual. Your payment is safe — Pro
+            unlocks automatically within a few minutes, even if you close
+            this page. If it doesn&rsquo;t, contact office@appsplosh.com and
+            we&rsquo;ll sort it fast.
+          </p>
+          <button
+            onClick={() => router.replace('/')}
+            className="py-3 px-8 rounded-2xl font-mono font-bold uppercase tracking-widest text-xs text-hone-text bg-hone-card border border-hone-border"
+          >
+            Back to HONE
+          </button>
+        </>
       )}
     </div>
   )
