@@ -5,12 +5,7 @@ import { useRouter } from 'next/navigation'
 import Warmup from '@/components/session/Warmup'
 import RestScreen from '@/components/session/RestScreen'
 import SessionComplete from '@/components/session/SessionComplete'
-import LockOnGame from '@/components/games/LockOnGame'
-import FlashGame from '@/components/games/FlashGame'
-import InhibitGame from '@/components/games/InhibitGame'
-import NBackGame from '@/components/games/NBackGame'
-import MatrixGame from '@/components/games/MatrixGame'
-import WordGame from '@/components/games/WordGame'
+import { pickGame } from '@/lib/gameRegistry'
 import {
   loadState,
   saveSessionResult,
@@ -349,28 +344,19 @@ function GameRenderer({
   const cues = KOVA_CUES.setStart[muscle as keyof typeof KOVA_CUES.setStart] ?? KOVA_CUES.setStart.FOCUS
   const cue = getRandomCue(cues)
 
-  const commonProps = {
-    difficulty,
-    durationSecs: 90,
-    muscleColor: color,
-    onComplete,
-    coachCue: cue,
-    setNumber,
-  }
+  // Rotate through the muscle's game variants by session + set so daily
+  // training stays fresh. sessionCount is stable within a set.
+  const sessionCount = loadState().profile?.sessionCount ?? 0
+  const Game = pickGame(muscle, sessionCount, setNumber)
 
-  switch (muscle) {
-    case 'SPEED':
-      return <FlashGame {...commonProps} />
-    case 'CONTROL':
-      return <InhibitGame {...commonProps} />
-    case 'MEMORY':
-      return <NBackGame {...commonProps} />
-    case 'LOGIC':
-      return <MatrixGame {...commonProps} />
-    case 'WORDS':
-      return <WordGame {...commonProps} />
-    case 'FOCUS':
-    default:
-      return <LockOnGame {...commonProps} />
-  }
+  return (
+    <Game
+      difficulty={difficulty}
+      durationSecs={90}
+      muscleColor={color}
+      onComplete={onComplete}
+      coachCue={cue}
+      setNumber={setNumber}
+    />
+  )
 }
