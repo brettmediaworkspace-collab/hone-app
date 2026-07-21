@@ -183,9 +183,17 @@ function HomeTab({
 
       {/* HONE Score card */}
       <div className="bg-hone-card border border-hone-border rounded-2xl p-5 mb-4">
-        <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-3">
-          Your HONE Score
-        </p>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-xs font-mono text-hone-muted uppercase tracking-widest">
+            Your HONE Score
+          </p>
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            <span className="text-sm">🔥</span>
+            <span className="text-sm font-mono text-hone-muted whitespace-nowrap">
+              {streak > 0 ? `${streak} day streak` : 'Start your streak'}
+            </span>
+          </div>
+        </div>
         {honesScore > 0 ? (
           <div className="relative flex items-end gap-3 mb-4">
             <div
@@ -242,10 +250,6 @@ function HomeTab({
         </div>
       </div>
 
-      {isPro && <ManageProCard plan={proPlan} />}
-
-      <ReminderCard trainingTime={trainingTime} />
-
       {/* Today's workout */}
       <div className="bg-hone-card border border-hone-border rounded-2xl p-5 mb-4">
         <div className="flex items-center justify-between mb-3">
@@ -295,22 +299,19 @@ function HomeTab({
         </button>
       )}
 
-      <AccountRow />
+      {isPro && <ManageProCard plan={proPlan} />}
 
-      {/* Stats row */}
-      <div className="flex items-center justify-between px-1">
-        <div className="flex items-center gap-1.5">
-          <span className="text-hone-green text-sm">🔥</span>
-          <span className="text-sm text-hone-muted font-mono">
-            {streak > 0 ? `${streak} day streak` : 'Start your streak'}
-          </span>
-        </div>
-        {lastPRDays !== null && (
+      <ReminderCard trainingTime={trainingTime} />
+
+      {lastPRDays !== null && (
+        <div className="flex items-center justify-end px-1">
           <span className="text-sm text-hone-muted font-mono">
             Last PR: {lastPRDays === 0 ? 'today' : `${lastPRDays}d ago`}
           </span>
-        )}
-      </div>
+        </div>
+      )}
+
+      <AccountRow />
     </div>
   )
 }
