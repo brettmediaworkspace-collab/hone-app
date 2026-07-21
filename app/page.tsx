@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { loadState, AppState, getMuscleColor, getGoalSplit } from '@/lib/gameState'
-import { getSubscription, canStartSession, isFreeMuscle } from '@/lib/subscription'
+import { getSubscription, canStartSession, isFreeMuscle, getEffectiveSplit } from '@/lib/subscription'
 import PaywallScreen from '@/components/PaywallScreen'
 import SaveProgressCard from '@/components/SaveProgressCard'
 import RadarChart from '@/components/RadarChart'
 import Sparkline from '@/components/Sparkline'
 import ManageProCard from '@/components/ManageProCard'
 import MuscleGlyph from '@/components/MuscleGlyph'
+import ReminderCard from '@/components/ReminderCard'
 import { Plan } from '@/lib/subscription'
 
 const MUSCLE_GROUPS = ['FOCUS', 'SPEED', 'MEMORY', 'LOGIC', 'WORDS', 'CONTROL'] as const
@@ -68,13 +69,13 @@ export default function HomePage() {
   const { profile, honesScore, muscleScores, sessionHistory, bestScores } = state
   const today = new Date()
   const dayName = today.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase()
-  const split = getGoalSplit(profile.goal)
+  const todayStr = today.toISOString().split('T')[0]
+  const split = getEffectiveSplit(profile.goal, proState.isPro, todayStr)
   const lastPR = sessionHistory.find(s => s.isPersonalRecord)
   const lastPRDays = lastPR
     ? Math.floor((Date.now() - new Date(lastPR.date).getTime()) / 86400000)
     : null
 
-  const todayStr = today.toISOString().split('T')[0]
   const trainedToday = profile.lastSessionDate === todayStr
 
   return (
@@ -93,6 +94,7 @@ export default function HomePage() {
             trainedToday={trainedToday}
             isPro={proState.isPro}
             proPlan={proState.plan}
+            trainingTime={profile.trainingTime}
           onStartSession={handleStartSession}
           onShowPaywall={() => setPaywall({ trigger: 'general' })}
           />
@@ -141,6 +143,7 @@ function HomeTab({
   trainedToday,
   isPro,
   proPlan,
+  trainingTime,
   onStartSession,
   onShowPaywall,
 }: {
@@ -154,6 +157,7 @@ function HomeTab({
   trainedToday: boolean
   isPro: boolean
   proPlan: Plan
+  trainingTime?: string
   onStartSession: () => void
   onShowPaywall: () => void
 }) {
@@ -238,6 +242,8 @@ function HomeTab({
       </div>
 
       {isPro && <ManageProCard plan={proPlan} />}
+
+      <ReminderCard trainingTime={trainingTime} />
 
       {/* Today's workout */}
       <div className="bg-hone-card border border-hone-border rounded-2xl p-5 mb-4">

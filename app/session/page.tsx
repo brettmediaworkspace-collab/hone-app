@@ -21,7 +21,7 @@ import {
   KOVA_CUES,
   getRandomCue,
 } from '@/lib/scoring'
-import { getSubscription, isFreeMuscle, markSessionStarted, FREE_MUSCLES } from '@/lib/subscription'
+import { getSubscription, markSessionStarted, getEffectiveSplit } from '@/lib/subscription'
 import PaywallScreen from '@/components/PaywallScreen'
 
 type Phase =
@@ -66,21 +66,8 @@ export default function SessionPage() {
     const goal = state.profile?.goal ?? 'Sharp Mind'
     const goalSplit = getGoalSplit(goal)
 
-    // For free users: swap locked muscles for free ones. Fill from the
-    // unused free muscles rather than picking at random with replacement,
-    // which could hand out the same muscle three times in one session.
-    let effectiveSplit = goalSplit
-    if (!sub.isPro) {
-      const used = new Set(goalSplit.filter(m => isFreeMuscle(m)))
-      const pool = (FREE_MUSCLES as readonly string[])
-        .filter(m => !used.has(m))
-        .sort(() => Math.random() - 0.5)
-      let next = 0
-      effectiveSplit = goalSplit.map(m =>
-        isFreeMuscle(m) ? m : (pool[next++] ?? FREE_MUSCLES[next % FREE_MUSCLES.length])
-      )
-    }
-    setSplit(effectiveSplit)
+    const todayKey = new Date().toISOString().split('T')[0]
+    setSplit(getEffectiveSplit(goal, sub.isPro, todayKey))
 
     // Difficulty: cap at 3 for free users
     const sessionCount = state.profile?.sessionCount ?? 0

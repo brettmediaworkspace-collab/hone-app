@@ -8,10 +8,11 @@
 
 import { initializeApp, getApps, cert, App } from 'firebase-admin/app'
 import { getFirestore, Firestore } from 'firebase-admin/firestore'
+import { getMessaging, Messaging } from 'firebase-admin/messaging'
 
 let app: App | null = null
 
-export function adminDb(): Firestore {
+function ensureApp(): App {
   if (!app) {
     const raw = process.env.FIREBASE_SERVICE_ACCOUNT
     if (!raw) throw new Error('FIREBASE_SERVICE_ACCOUNT env var not set')
@@ -20,5 +21,13 @@ export function adminDb(): Firestore {
       ? getApps()[0]
       : initializeApp({ credential: cert(creds) })
   }
-  return getFirestore(app)
+  return app
+}
+
+export function adminDb(): Firestore {
+  return getFirestore(ensureApp())
+}
+
+export function adminMessaging(): Messaging {
+  return getMessaging(ensureApp())
 }
