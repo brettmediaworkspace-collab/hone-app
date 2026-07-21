@@ -244,7 +244,7 @@ export default function NBackGame({
   const correctCount = results.filter(r => r.correct).length
   const recentResults = results.slice(-10)
 
-  let instructionText = '—'
+  let instructionText = '-'
   let instructionColor = '#6B6B80'
   if (phase === 'stimulus') {
     instructionText = `REMEMBER THIS`
@@ -301,7 +301,7 @@ export default function NBackGame({
         </p>
       </div>
 
-      {/* N-back sequence preview — last N items (blurred) */}
+      {/* N-back sequence preview - last N items (blurred) */}
       <div className="px-4 mb-2 flex-shrink-0">
         <div className="flex gap-1.5 items-center">
           <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mr-2">SEQUENCE</p>
@@ -386,7 +386,7 @@ export default function NBackGame({
         <div className="flex items-center justify-between">
           <div className="text-center">
             <p className="font-mono text-2xl font-medium" style={{ color: muscleColor }}>
-              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '—'}{results.length > 0 ? '%' : ''}
+              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '-'}{results.length > 0 ? '%' : ''}
             </p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Accuracy</p>
           </div>

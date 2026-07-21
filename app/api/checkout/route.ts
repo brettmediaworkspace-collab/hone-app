@@ -1,6 +1,6 @@
 // Creates a Polar checkout session server-side and redirects the buyer
 // to it. Static checkout links ignore metadata query params, so this is
-// the only reliable way to attach the buyer's uid — which the webhook
+// the only reliable way to attach the buyer's uid - which the webhook
 // needs in order to grant Pro to the right account.
 //
 // GET /api/checkout?plan=monthly|annual|lifetime&uid=<firebase-uid>

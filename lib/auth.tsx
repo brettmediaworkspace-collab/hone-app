@@ -25,7 +25,7 @@ interface AuthContextValue {
   ready: boolean
   /** True when signed in with a real (non-anonymous) account. */
   isLinked: boolean
-  /** Sign in with Google — links the anonymous account if one exists. */
+  /** Sign in with Google - links the anonymous account if one exists. */
   signInWithGoogle: () => Promise<void>
 }
 
@@ -74,11 +74,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const provider = new GoogleAuthProvider()
     if (auth.currentUser?.isAnonymous) {
       try {
-        // Upgrade the anonymous account in place — keeps uid and data.
+        // Upgrade the anonymous account in place - keeps uid and data.
         await linkWithPopup(auth.currentUser, provider)
         return
       } catch (e: unknown) {
-        // Account already exists for this Google identity — sign into it
+        // Account already exists for this Google identity - sign into it
         // and merge local progress on top.
         const code = (e as { code?: string })?.code
         if (code !== 'auth/credential-already-in-use') throw e

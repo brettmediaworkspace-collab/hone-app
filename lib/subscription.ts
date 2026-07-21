@@ -9,7 +9,7 @@ export interface SubscriptionState {
   plan: Plan
   expiresAt: string | null  // ISO date, null = lifetime or free
   stripeSessionId: string | null
-  lastSessionDate: string | null  // YYYY-MM-DD — enforces 1 session/day limit
+  lastSessionDate: string | null  // YYYY-MM-DD - enforces 1 session/day limit
 }
 
 const KEY = 'hone:subscription'

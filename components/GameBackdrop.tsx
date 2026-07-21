@@ -1,6 +1,6 @@
 // Subtle per-muscle background texture behind each game, so every muscle
 // group reads as visually distinct at a glance. Pure CSS gradients in the
-// muscle's accent colour at very low opacity — no assets, theme-safe.
+// muscle's accent colour at very low opacity - no assets, theme-safe.
 export default function GameBackdrop({
   muscle,
   color,
@@ -13,7 +13,7 @@ export default function GameBackdrop({
   let backgroundSize = 'auto'
 
   switch (muscle) {
-    case 'FOCUS': // concentric rings — a target
+    case 'FOCUS': // concentric rings - a target
       backgroundImage = `repeating-radial-gradient(circle at 50% 42%, ${c}14 0 1px, transparent 1px 30px)`
       break
     case 'SPEED': // diagonal motion streaks

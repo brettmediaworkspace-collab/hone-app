@@ -236,7 +236,7 @@ export default function InhibitGame({
   } else if (feedback === 'miss') {
     instructionEl = <span className="text-hone-muted">MISSED</span>
   } else {
-    instructionEl = <span className="text-hone-muted">—</span>
+    instructionEl = <span className="text-hone-muted">-</span>
   }
 
   // Shape display colour
@@ -349,7 +349,7 @@ export default function InhibitGame({
         <div className="flex items-center justify-between">
           <div className="text-center">
             <p className="font-mono text-2xl font-medium" style={{ color: muscleColor }}>
-              {totalTrials > 0 ? Math.round((correctCount / totalTrials) * 100) : '—'}{totalTrials > 0 ? '%' : ''}
+              {totalTrials > 0 ? Math.round((correctCount / totalTrials) * 100) : '-'}{totalTrials > 0 ? '%' : ''}
             </p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Accuracy</p>
           </div>

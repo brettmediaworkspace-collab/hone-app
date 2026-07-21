@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { TrialResult } from '@/lib/scoring'
 import { playResult } from '@/lib/feedback'
 
-// FOCUS variant — Odd One Out. A grid of identical tiles hides one that's a
+// FOCUS variant - Odd One Out. A grid of identical tiles hides one that's a
 // slightly different shade; find and tap it. Trains visual search and
 // selective attention, distinct from LockOn's flash-and-recall.
 interface OddOneGameProps {
@@ -22,7 +22,7 @@ function gridSize(difficulty: number): number {
   return 5
 }
 
-// Alpha gap between the odd tile and the rest — shrinks as difficulty rises.
+// Alpha gap between the odd tile and the rest - shrinks as difficulty rises.
 function oddDelta(difficulty: number): number {
   return Math.max(0.09, 0.32 - (difficulty - 1) * 0.02)
 }
@@ -52,7 +52,7 @@ export default function OddOneGame({
   const [countIn, setCountIn] = useState<number | null>(3)
   const [progressWidth, setProgressWidth] = useState(100)
 
-  // Resolution guard — synchronous, so one answer (or miss) per trial even
+  // Resolution guard - synchronous, so one answer (or miss) per trial even
   // if renders/timers race. Correctness itself is derived from the rendered
   // oddIndex passed into the click handler, so it can never disagree with
   // the tile the player actually saw.
@@ -223,12 +223,12 @@ export default function OddOneGame({
         <div className="flex items-center justify-between">
           <div className="text-center">
             <p className="font-mono text-2xl font-medium" style={{ color: muscleColor }}>
-              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '—'}{results.length > 0 ? '%' : ''}
+              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '-'}{results.length > 0 ? '%' : ''}
             </p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Accuracy</p>
           </div>
           <div className="text-center">
-            <p className="font-mono text-2xl font-medium text-hone-text">{avgRT ? `${avgRT}ms` : '—'}</p>
+            <p className="font-mono text-2xl font-medium text-hone-text">{avgRT ? `${avgRT}ms` : '-'}</p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Avg RT</p>
           </div>
           <div className="text-center">

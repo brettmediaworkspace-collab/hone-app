@@ -72,7 +72,7 @@ export default function SessionComplete({
 
   const KOVA_NOTES = [
     `${muscleGroup} is responding. Keep the pressure on.`,
-    `${set3.accuracy > set1.accuracy ? 'You peaked on the finisher — that\'s elite adaptation.' : 'You\'ll find more in the finisher. We\'ll train it.'}`,
+    `${set3.accuracy > set1.accuracy ? 'You peaked on the finisher - that\'s elite adaptation.' : 'You\'ll find more in the finisher. We\'ll train it.'}`,
     `Session done. ${streak} days straight. The score reflects it.`,
   ]
   const kova = KOVA_NOTES[Math.floor(Math.random() * KOVA_NOTES.length)]
@@ -139,7 +139,7 @@ export default function SessionComplete({
                   {set.accuracy}%
                 </p>
                 <p className="text-xs text-hone-muted font-mono">
-                  {set.avgReactionMs > 0 ? `${set.avgReactionMs}ms` : '—'}
+                  {set.avgReactionMs > 0 ? `${set.avgReactionMs}ms` : '-'}
                 </p>
               </div>
             </div>
@@ -254,7 +254,7 @@ function ShareActions({
           if (!pro) { setShowPaywall(true); return }
           if (navigator.share) {
             navigator.share({
-              title: `HONE — ${muscleGroup} Personal Record`,
+              title: `HONE - ${muscleGroup} Personal Record`,
               text: `Just hit ${score} on ${muscleGroup}. Day ${dayNumber}. #HONE`,
               url: 'https://hone.appsplosh.com',
             })
@@ -326,7 +326,7 @@ function PRCardOverlay({
               <p className="text-xs text-hone-muted leading-relaxed italic">
                 &ldquo;{KOVA_QUOTES[muscleGroup] ?? KOVA_QUOTES.FOCUS}&rdquo;
                 <br />
-                <span className="text-hone-muted not-italic">— KOVA, Your Coach</span>
+                <span className="text-hone-muted not-italic">- KOVA, Your Coach</span>
               </p>
             </div>
             <p className="text-xs font-mono text-hone-muted">

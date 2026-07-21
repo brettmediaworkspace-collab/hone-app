@@ -40,7 +40,7 @@ export function calcSetScore(trials: TrialResult[], difficulty: number): SetScor
 }
 
 export function calcSessionScore(set1: SetScore, set2: SetScore, set3: SetScore): number {
-  // Finisher (set3) counts double — max effort set
+  // Finisher (set3) counts double - max effort set
   const weighted = (set1.score + set2.score + set3.score * 2) / 4
   return Math.round(weighted)
 }
@@ -53,12 +53,12 @@ export const KOVA_CUES = {
   ],
   setStart: {
     FOCUS: [
-      "Stay locked to the target. Don't anticipate — react.",
+      "Stay locked to the target. Don't anticipate - react.",
       "Your job is attention. Nothing else matters right now.",
       "Peripheral vision off. Lock on.",
     ],
     SPEED: [
-      "Faster. Don't think — fire.",
+      "Faster. Don't think - fire.",
       "Reaction is a skill. Train it like one.",
       "Every millisecond counts.",
     ],
@@ -74,7 +74,7 @@ export const KOVA_CUES = {
     ],
     WORDS: [
       "Language is precision. Be precise.",
-      "Fluency under pressure — that's the skill.",
+      "Fluency under pressure - that's the skill.",
       "Words are weapons. Sharpen them.",
     ],
     CONTROL: [
@@ -85,7 +85,7 @@ export const KOVA_CUES = {
   },
   rest: [
     "Solid. Breathe out. Reset.",
-    "You dropped on reps 7–9 — adapt. Next set: maximum effort.",
+    "You dropped on reps 7–9 - adapt. Next set: maximum effort.",
     "That's the adaptation working. One more set.",
     "Consistency builds the score. Stay consistent.",
   ],
@@ -95,7 +95,7 @@ export const KOVA_CUES = {
     "The work is in. Recovery starts now.",
   ],
   personalRecord: [
-    "Personal record. That's not luck — that's training.",
+    "Personal record. That's not luck - that's training.",
     "New benchmark. This is your floor now.",
     "You just raised the bar. Literally.",
   ],

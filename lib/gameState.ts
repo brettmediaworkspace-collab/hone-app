@@ -54,7 +54,7 @@ export function loadState(): AppState {
   }
 }
 
-// Cloud sync hook — registered by AuthProvider to mirror saves to
+// Cloud sync hook - registered by AuthProvider to mirror saves to
 // Firestore. Kept as a callback to avoid a gameState ↔ cloudSync cycle.
 let syncListener: (() => void) | null = null
 export function setSyncListener(fn: (() => void) | null) {

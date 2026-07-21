@@ -1,6 +1,6 @@
 import LegalPage, { H } from '@/components/LegalPage'
 
-export const metadata = { title: 'Terms of Service — HONE' }
+export const metadata = { title: 'Terms of Service - HONE' }
 
 export default function TermsPage() {
   return (
@@ -21,7 +21,7 @@ export default function TermsPage() {
         paid subscription (&ldquo;HONE Pro&rdquo;).
       </p>
 
-      <H>2. What HONE is — and is not</H>
+      <H>2. What HONE is - and is not</H>
       <p>
         HONE is a training and self-improvement tool. It is <strong>not</strong>{' '}
         a medical device, does not diagnose, treat, or prevent any medical
@@ -55,7 +55,7 @@ export default function TermsPage() {
 
       <H>5. Acceptable use</H>
       <p>
-        You agree not to misuse the Service — including attempting to bypass
+        You agree not to misuse the Service - including attempting to bypass
         payment, interfere with other users&rsquo; data, reverse-engineer,
         scrape, or use the Service in violation of applicable law.
       </p>
@@ -100,7 +100,7 @@ export default function TermsPage() {
 
       <H>11. Contact</H>
       <p>
-        Appsplosh — email:{' '}
+        Appsplosh - email:{' '}
         <a href="mailto:office@appsplosh.com" className="text-hone-green underline">
           office@appsplosh.com
         </a>

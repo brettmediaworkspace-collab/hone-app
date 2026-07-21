@@ -86,7 +86,7 @@ function SuccessContent() {
         <div className="w-full max-w-xs mt-8 text-left">
           <SaveProgressCard
             title="Protect your purchase"
-            body="Link a free account so Pro follows you to any device — even if you lose this one."
+            body="Link a free account so Pro follows you to any device - even if you lose this one."
           />
         </div>
         <p className="text-xs font-mono text-hone-muted mt-4 uppercase tracking-widest animate-pulse">
@@ -105,7 +105,7 @@ function SuccessContent() {
       {status === 'slow' && (
         <>
           <p className="text-xs text-hone-muted max-w-xs leading-relaxed mb-6">
-            This is taking longer than usual. Your payment is safe — Pro
+            This is taking longer than usual. Your payment is safe - Pro
             unlocks automatically within a few minutes, even if you close
             this page. If it doesn&rsquo;t, contact office@appsplosh.com and
             we&rsquo;ll sort it fast.

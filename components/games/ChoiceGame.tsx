@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { TrialResult } from '@/lib/scoring'
 import { playResult } from '@/lib/feedback'
 
-// SPEED variant — Choice Reaction. An arrow points left or right; tap the
+// SPEED variant - Choice Reaction. An arrow points left or right; tap the
 // matching side as fast as you can. Adds a decision step over FlashGame's
 // simple detection, so it trains choice reaction time.
 interface ChoiceGameProps {
@@ -40,7 +40,7 @@ export default function ChoiceGame({
   const [countIn, setCountIn] = useState<number | null>(3)
   const [progressWidth, setProgressWidth] = useState(100)
 
-  // Resolution guard — one answer per trial. Correctness is derived from
+  // Resolution guard - one answer per trial. Correctness is derived from
   // the rendered `dir` passed into the handler, so it can't disagree with
   // the arrow the player saw.
   const answeredRef = useRef(false)
@@ -175,7 +175,7 @@ export default function ChoiceGame({
           {dir ? <span className="font-semibold" style={{ color: muscleColor }}>TAP THE SIDE IT POINTS</span>
             : feedback === 'miss' ? <span className="text-hone-red">TOO SLOW</span>
             : feedback === 'wrong' ? <span className="text-hone-red">WRONG SIDE</span>
-            : <span className="text-hone-muted">—</span>}
+            : <span className="text-hone-muted">-</span>}
         </p>
       </div>
 
@@ -214,12 +214,12 @@ export default function ChoiceGame({
         <div className="flex items-center justify-between">
           <div className="text-center">
             <p className="font-mono text-2xl font-medium" style={{ color: muscleColor }}>
-              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '—'}{results.length > 0 ? '%' : ''}
+              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '-'}{results.length > 0 ? '%' : ''}
             </p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Accuracy</p>
           </div>
           <div className="text-center">
-            <p className="font-mono text-2xl font-medium text-hone-text">{avgRT ? `${avgRT}ms` : '—'}</p>
+            <p className="font-mono text-2xl font-medium text-hone-text">{avgRT ? `${avgRT}ms` : '-'}</p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Avg RT</p>
           </div>
           <div className="text-center">

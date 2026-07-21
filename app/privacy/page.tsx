@@ -1,6 +1,6 @@
 import LegalPage, { H } from '@/components/LegalPage'
 
-export const metadata = { title: 'Privacy Policy — HONE' }
+export const metadata = { title: 'Privacy Policy - HONE' }
 
 export default function PrivacyPage() {
   return (
@@ -78,7 +78,7 @@ export default function PrivacyPage() {
 
       <H>10. Contact</H>
       <p>
-        Data controller: Appsplosh —{' '}
+        Data controller: Appsplosh -{' '}
         <a href="mailto:office@appsplosh.com" className="text-hone-green underline">
           office@appsplosh.com
         </a>

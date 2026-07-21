@@ -1,14 +1,14 @@
 import LegalPage, { H } from '@/components/LegalPage'
 
-export const metadata = { title: 'Refund Policy — HONE' }
+export const metadata = { title: 'Refund Policy - HONE' }
 
 export default function RefundsPage() {
   return (
     <LegalPage title="Refund Policy" updated="13 July 2026">
       <p>
         We want you to pay for HONE Pro only if it&rsquo;s genuinely working
-        for you. That&rsquo;s why the core experience — including your baseline
-        assessment and daily training on free muscle groups — costs nothing,
+        for you. That&rsquo;s why the core experience - including your baseline
+        assessment and daily training on free muscle groups - costs nothing,
         and why subscriptions come with a free trial before any charge.
       </p>
 
@@ -23,7 +23,7 @@ export default function RefundsPage() {
       <H>2. 14-day refund guarantee</H>
       <p>
         If you&rsquo;re unhappy with a purchase, contact us within 14 days of
-        the charge and we will refund it in full — subscriptions and lifetime
+        the charge and we will refund it in full - subscriptions and lifetime
         purchases alike. This mirrors your statutory rights under UK and EU
         consumer law.
       </p>

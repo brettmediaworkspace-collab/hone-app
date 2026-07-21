@@ -134,7 +134,7 @@ export default function LockOnGame({
 
         trialTimeoutRef.current = setTimeout(() => {
           if (doneRef.current) return
-          // timeout — count as miss
+          // timeout - count as miss
           const result: TrialResult = { correct: false, reactionTimeMs: null }
           resultsRef.current = [...resultsRef.current, result]
           setResults(r => [...r, result])
@@ -294,7 +294,7 @@ export default function LockOnGame({
           ) : phase === 'response' ? (
             <span className="text-hone-text font-semibold">TAP IT</span>
           ) : (
-            <span className="text-hone-muted">—</span>
+            <span className="text-hone-muted">-</span>
           )}
         </p>
       </div>
@@ -382,7 +382,7 @@ export default function LockOnGame({
         <div className="flex items-center justify-between">
           <div className="text-center">
             <p className="font-mono text-2xl font-medium" style={{ color: muscleColor }}>
-              {totalTrials > 0 ? Math.round((correctCount / totalTrials) * 100) : '—'}
+              {totalTrials > 0 ? Math.round((correctCount / totalTrials) * 100) : '-'}
               {totalTrials > 0 ? '%' : ''}
             </p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">

@@ -1,4 +1,4 @@
-// Polar webhook — grants/revokes HONE Pro server-side, same contract as
+// Polar webhook - grants/revokes HONE Pro server-side, same contract as
 // the Lemon Squeezy route (either provider can drive the subscription).
 //
 // Polar signs webhooks per the Standard Webhooks spec: HMAC-SHA256 over
@@ -153,8 +153,8 @@ export async function POST(req: NextRequest) {
     )
 
     // Upgrades: end any other active Polar subscription for this customer
-    // so nobody pays twice (monthly keeps running until its period ends —
-    // they paid for it — but won't renew).
+    // so nobody pays twice (monthly keeps running until its period ends -
+    // they paid for it - but won't renew).
     if (event === 'order.paid' && (plan === 'annual' || plan === 'lifetime')) {
       await cancelSupersededSubscriptions(uid, payload).catch(e =>
         console.error('[polar] auto-cancel failed', e)

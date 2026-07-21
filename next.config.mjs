@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // firebase-admin can't be bundled by webpack — keep it a runtime require
+  // firebase-admin can't be bundled by webpack - keep it a runtime require
   experimental: {
     serverComponentsExternalPackages: ['firebase-admin', '@google-cloud/firestore'],
   },

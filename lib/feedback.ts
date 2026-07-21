@@ -1,6 +1,6 @@
 // Audio + haptic feedback for gameplay.
 //
-// Web Audio blips synthesised on the fly — no assets, ~zero latency.
+// Web Audio blips synthesised on the fly - no assets, ~zero latency.
 // Haptics via navigator.vibrate where available (Android; iOS Safari
 // ignores it silently). Respects a persisted mute flag.
 
@@ -65,14 +65,14 @@ function vibrate(pattern: number | number[]) {
   }
 }
 
-/** Short bright tick — correct answer. */
+/** Short bright tick - correct answer. */
 export function playCorrect() {
   tone(880, 90, { type: 'sine', gain: 0.07 })
   tone(1320, 70, { type: 'sine', gain: 0.04, delayMs: 30 })
   vibrate(10)
 }
 
-/** Low dull thud — wrong answer / miss. */
+/** Low dull thud - wrong answer / miss. */
 export function playWrong() {
   tone(160, 140, { type: 'triangle', gain: 0.09, glideTo: 110 })
   vibrate([30, 40, 30])
@@ -84,7 +84,7 @@ export function playResult(correct: boolean) {
   else playWrong()
 }
 
-/** Rising three-note hit — set complete. */
+/** Rising three-note hit - set complete. */
 export function playSetComplete() {
   tone(523, 110, { gain: 0.06 })
   tone(659, 110, { gain: 0.06, delayMs: 110 })
@@ -92,7 +92,7 @@ export function playSetComplete() {
   vibrate(40)
 }
 
-/** Bigger arpeggio + shimmer — personal record / score reveal. */
+/** Bigger arpeggio + shimmer - personal record / score reveal. */
 export function playCelebration() {
   tone(523, 120, { gain: 0.07 })
   tone(659, 120, { gain: 0.07, delayMs: 100 })
@@ -102,7 +102,7 @@ export function playCelebration() {
   vibrate([40, 60, 40, 60, 80])
 }
 
-/** Soft single tick — countdowns and interstitials. */
+/** Soft single tick - countdowns and interstitials. */
 export function playTick() {
   tone(660, 50, { gain: 0.04 })
 }

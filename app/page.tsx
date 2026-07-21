@@ -18,7 +18,7 @@ export default function HomePage() {
   const router = useRouter()
   const [state, setState] = useState<AppState | null>(null)
   const [tab, setTab] = useState<'home' | 'progress'>('home')
-  const [paywall, setPaywall] = useState<{ trigger: 'daily-limit' | 'streak' | 'general' } | null>(null)
+  const [paywall, setPaywall] = useState<{ trigger: 'daily-limit' | 'streak' | 'general'; continueAfter?: boolean } | null>(null)
   const [proState, setProState] = useState({ isPro: false, plan: 'free' as Plan })
 
   useEffect(() => {
@@ -36,10 +36,13 @@ export default function HomePage() {
       setPaywall({ trigger: 'daily-limit' })
       return
     }
-    // Streak paywall at 7 days for free users
+    // Streak upsell at every 7th day for free users. This must NOT block
+    // training - dismissing it starts the session, otherwise the user
+    // could never train on day 7/14/21 and would lose the streak we're
+    // congratulating them for.
     const streak = state?.profile?.streak ?? 0
     if (!proState.isPro && streak >= 7 && streak % 7 === 0) {
-      setPaywall({ trigger: 'streak' })
+      setPaywall({ trigger: 'streak', continueAfter: true })
       return
     }
     router.push('/session')
@@ -53,7 +56,11 @@ export default function HomePage() {
         trigger={paywall.trigger}
         honesScore={state.honesScore}
         streakDays={state.profile.streak}
-        onClose={() => setPaywall(null)}
+        onClose={() => {
+          const proceed = paywall.continueAfter
+          setPaywall(null)
+          if (proceed) router.push('/session')
+        }}
       />
     )
   }
@@ -312,7 +319,7 @@ function ProgressTab({
     <div className="px-4 pt-8">
       <h2 className="font-black text-xl mb-6">Progress</h2>
 
-      {/* Radar — the body scan */}
+      {/* Radar - the body scan */}
       <div className="bg-hone-card border border-hone-border rounded-2xl p-4 mb-4">
         <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-1">
           Muscle Scan
@@ -359,7 +366,7 @@ function ProgressTab({
                   {muscle}
                 </span>
                 <span className="text-sm font-mono text-hone-muted">
-                  {score > 0 ? score : '—'}
+                  {score > 0 ? score : '-'}
                   {best > 0 && <span className="text-xs text-hone-muted ml-2">PR {best}</span>}
                 </span>
               </div>

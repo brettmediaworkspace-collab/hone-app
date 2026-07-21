@@ -22,7 +22,7 @@ export default function ManageProCard({ plan }: { plan: Plan }) {
   const expiresAt = getSubscription().expiresAt
   const renewText =
     plan === 'lifetime'
-      ? 'Yours forever — nothing renews.'
+      ? 'Yours forever - nothing renews.'
       : expiresAt
       ? `Renews ${new Date(expiresAt).toLocaleDateString('en-GB', {
           day: 'numeric',
@@ -97,7 +97,7 @@ export default function ManageProCard({ plan }: { plan: Plan }) {
             )
           }
 
-          // Lower tier than current — included, dimmed
+          // Lower tier than current - included, dimmed
           return (
             <div
               key={tier.id}
@@ -115,7 +115,7 @@ export default function ManageProCard({ plan }: { plan: Plan }) {
 
       {rank < 2 && (
         <p className="text-xs text-hone-muted leading-relaxed mt-3">
-          Upgrading ends your current plan automatically — no double billing.
+          Upgrading ends your current plan automatically - no double billing.
         </p>
       )}
 

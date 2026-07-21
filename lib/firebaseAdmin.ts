@@ -1,4 +1,4 @@
-// Server-only Firebase Admin init. Used by the payments webhook — the
+// Server-only Firebase Admin init. Used by the payments webhook - the
 // Admin SDK bypasses Firestore rules, which is what lets it write the
 // otherwise client-locked `subscription` field.
 //

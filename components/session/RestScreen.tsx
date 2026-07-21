@@ -14,7 +14,7 @@ interface RestScreenProps {
 
 const REST_CUES = [
   "Solid. You're adapting. Next set: stay locked.",
-  "Breathe. Next set is the finisher — maximum effort.",
+  "Breathe. Next set is the finisher - maximum effort.",
   "That's the work. Reset and go again.",
   "Consistency over time. One more set.",
 ]

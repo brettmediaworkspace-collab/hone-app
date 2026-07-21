@@ -1,6 +1,6 @@
 'use client'
 
-// Pattern Matrix — LOGIC muscle
+// Pattern Matrix - LOGIC muscle
 // 3×3 grid of shape+colour combos, bottom-right cell missing.
 // Each row uses one shape; each column uses one colour. Pick the missing cell.
 
@@ -55,7 +55,7 @@ function generateProblem(difficulty: number): { grid: (Cell | null)[][]; answer:
     row.map((cell, c) => (r === 2 && c === 2 ? null : cell))
   )
 
-  // Generate distractors — wrong shape+color combos
+  // Generate distractors - wrong shape+color combos
   const distractors: Cell[] = []
   const used = new Set([`${answer.shape}:${answer.color}`])
 
@@ -140,7 +140,7 @@ export default function MatrixGame({
 
     trialTimeoutRef.current = setTimeout(() => {
       if (doneRef.current) return
-      // Timeout — miss
+      // Timeout - miss
       const result: TrialResult = { correct: false, reactionTimeMs: null }
       resultsRef.current = [...resultsRef.current, result]
       setResults(r => [...r, result])
@@ -246,7 +246,7 @@ export default function MatrixGame({
       <div className="px-4 mb-3 flex-shrink-0">
         <p className="text-sm text-hone-muted">
           <span className="font-semibold text-hone-text">Complete the pattern</span>
-          <span className="text-hone-muted"> — find what goes in the missing cell</span>
+          <span className="text-hone-muted"> - find what goes in the missing cell</span>
         </p>
       </div>
 
@@ -326,7 +326,7 @@ export default function MatrixGame({
         <div className="flex items-center justify-between">
           <div className="text-center">
             <p className="font-mono text-2xl font-medium" style={{ color: muscleColor }}>
-              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '—'}{results.length > 0 ? '%' : ''}
+              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '-'}{results.length > 0 ? '%' : ''}
             </p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Accuracy</p>
           </div>

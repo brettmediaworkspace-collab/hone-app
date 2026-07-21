@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { TrialResult } from '@/lib/scoring'
 import { playResult } from '@/lib/feedback'
 
-// WORDS variant — Odd Word Out. Three words share a category, one doesn't.
+// WORDS variant - Odd Word Out. Three words share a category, one doesn't.
 // Tap the outlier. Trains semantic categorisation, distinct from WordGame's
 // synonym/antonym matching.
 interface WordsOddGameProps {
@@ -235,12 +235,12 @@ export default function WordsOddGame({
         <div className="flex items-center justify-between">
           <div className="text-center">
             <p className="font-mono text-2xl font-medium" style={{ color: muscleColor }}>
-              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '—'}{results.length > 0 ? '%' : ''}
+              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '-'}{results.length > 0 ? '%' : ''}
             </p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Accuracy</p>
           </div>
           <div className="text-center">
-            <p className="font-mono text-2xl font-medium text-hone-text">{avgRT ? `${avgRT}ms` : '—'}</p>
+            <p className="font-mono text-2xl font-medium text-hone-text">{avgRT ? `${avgRT}ms` : '-'}</p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Avg RT</p>
           </div>
           <div className="text-center">

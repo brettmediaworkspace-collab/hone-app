@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
-// Shared shell for /terms, /privacy, /refunds — static, readable, on-brand.
+// Shared shell for /terms, /privacy, /refunds - static, readable, on-brand.
 export default function LegalPage({
   title,
   updated,

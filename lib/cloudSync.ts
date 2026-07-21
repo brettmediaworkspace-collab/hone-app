@@ -22,7 +22,7 @@ export function pushLocalState(uid?: string) {
   const id = uid ?? auth.currentUser?.uid
   if (!id) return
   const state = loadState()
-  // Subscription is mirrored for visibility only — the server-verified
+  // Subscription is mirrored for visibility only - the server-verified
   // copy written by the payments webhook is the one that matters.
   setDoc(
     userDoc(id),
@@ -33,7 +33,7 @@ export function pushLocalState(uid?: string) {
     },
     { merge: true }
   ).catch(() => {
-    /* offline or rules not deployed — stay local-only */
+    /* offline or rules not deployed - stay local-only */
   })
 }
 
@@ -47,7 +47,7 @@ export async function pullRemoteState(uid: string): Promise<boolean> {
     if (!snap.exists()) return false
 
     // The server-verified subscription (written only by the payments
-    // webhook) always wins over the local cache — grants follow the
+    // webhook) always wins over the local cache - grants follow the
     // account onto new devices, revocations propagate too.
     const serverSub = snap.data()?.subscription
     if (serverSub && typeof serverSub.isPro === 'boolean') {

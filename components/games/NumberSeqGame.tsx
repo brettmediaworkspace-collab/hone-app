@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { TrialResult } from '@/lib/scoring'
 import { playResult } from '@/lib/feedback'
 
-// LOGIC variant — Number Sequence. Infer the rule and pick what comes next.
+// LOGIC variant - Number Sequence. Infer the rule and pick what comes next.
 // Trains inductive reasoning, distinct from MatrixGame's shape/colour logic.
 interface NumberSeqGameProps {
   difficulty: number
@@ -256,12 +256,12 @@ export default function NumberSeqGame({
         <div className="flex items-center justify-between">
           <div className="text-center">
             <p className="font-mono text-2xl font-medium" style={{ color: muscleColor }}>
-              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '—'}{results.length > 0 ? '%' : ''}
+              {results.length > 0 ? Math.round((correctCount / results.length) * 100) : '-'}{results.length > 0 ? '%' : ''}
             </p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Accuracy</p>
           </div>
           <div className="text-center">
-            <p className="font-mono text-2xl font-medium text-hone-text">{avgRT ? `${avgRT}ms` : '—'}</p>
+            <p className="font-mono text-2xl font-medium text-hone-text">{avgRT ? `${avgRT}ms` : '-'}</p>
             <p className="text-hone-muted text-xs font-mono uppercase tracking-widest mt-0.5">Avg RT</p>
           </div>
           <div className="text-center">

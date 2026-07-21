@@ -8,7 +8,7 @@ import { useAuth } from '@/lib/auth'
 // linked or when auth is unavailable.
 export default function SaveProgressCard({
   title = "Don't lose this score",
-  body = 'Save your baseline to a free account — your progress syncs across devices.',
+  body = 'Save your baseline to a free account - your progress syncs across devices.',
 }: {
   title?: string
   body?: string
@@ -56,7 +56,7 @@ export default function SaveProgressCard({
       </button>
       {error && (
         <p className="text-xs text-hone-red mt-2">
-          Couldn&apos;t connect — your progress is saved on this device.
+          Couldn&apos;t connect - your progress is saved on this device.
         </p>
       )}
     </div>

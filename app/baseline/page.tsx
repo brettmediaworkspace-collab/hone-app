@@ -11,7 +11,7 @@ import SaveProgressCard from '@/components/SaveProgressCard'
 import { playCelebration, playTick } from '@/lib/feedback'
 
 // Three quick rounds sample three distinct muscle groups.
-// MEMORY is a Pro muscle — sampling it in the baseline is deliberate:
+// MEMORY is a Pro muscle - sampling it in the baseline is deliberate:
 // the reveal shows what Pro training would work on.
 const ROUNDS = ['FOCUS', 'SPEED', 'MEMORY'] as const
 const ROUND_SECONDS = 45
@@ -72,7 +72,7 @@ export default function BaselinePage() {
           difficulty={BASELINE_DIFFICULTY}
           durationSecs={ROUND_SECONDS}
           muscleColor={getMuscleColor('SPEED')}
-          coachCue="Round 2. Raw reaction. Don't think — fire."
+          coachCue="Round 2. Raw reaction. Don't think - fire."
           setNumber={2}
           onComplete={r => completeRound('SPEED', r, 'inter2')}
         />
@@ -112,7 +112,7 @@ function IntroScreen({ name, onStart }: { name: string; onStart: () => void }) {
         Let&apos;s find your starting score{name ? `, ${name}` : ''}.
       </h1>
       <p className="text-hone-muted text-sm leading-relaxed max-w-xs mb-10">
-        Three rounds. About three minutes. FOCUS, SPEED and MEMORY — enough to
+        Three rounds. About three minutes. FOCUS, SPEED and MEMORY - enough to
         calculate your baseline HONE Score.
       </p>
 
@@ -142,7 +142,7 @@ function IntroScreen({ name, onStart }: { name: string; onStart: () => void }) {
         Begin round 1
       </button>
       <p className="text-hone-muted text-xs mt-4 font-mono">
-        No pressure. This is day zero — everything improves from here.
+        No pressure. This is day zero - everything improves from here.
       </p>
     </div>
   )
@@ -319,7 +319,7 @@ function RevealScreen({
               )
             })}
             <p className="text-xs text-hone-muted mt-4 leading-relaxed">
-              LOGIC, WORDS and CONTROL are still unmeasured — they join your
+              LOGIC, WORDS and CONTROL are still unmeasured - they join your
               score as you train them.
             </p>
           </div>

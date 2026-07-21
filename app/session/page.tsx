@@ -108,7 +108,7 @@ export default function SessionPage() {
 
   const handleCooldown = useCallback(() => {
     setPhase('complete')
-    // Wait for set3Score state to propagate — use a slight delay
+    // Wait for set3Score state to propagate - use a slight delay
     setTimeout(() => {
       setFinalState(prev => {
         if (prev) return prev
@@ -151,7 +151,7 @@ export default function SessionPage() {
   const muscleGroup = split[0]
   const muscleColor = getMuscleColor(muscleGroup)
 
-  // Paywall overlay — shown when a free user hits a locked muscle mid-session
+  // Paywall overlay - shown when a free user hits a locked muscle mid-session
   if (paywallMuscle) {
     return (
       <PaywallScreen
@@ -164,7 +164,7 @@ export default function SessionPage() {
 
   return (
     <div className="h-screen flex flex-col bg-hone-bg overflow-hidden">
-      {/* End session button — only during active sets */}
+      {/* End session button - only during active sets */}
       {['set1', 'set2', 'set3'].includes(phase) && (
         <div className="absolute top-4 left-4 z-40">
           <button
@@ -285,7 +285,7 @@ function CooldownScreen({
   }, [onComplete])
 
   const INSIGHTS: Record<string, string> = {
-    FOCUS: "You just stressed your anterior cingulate cortex — the region responsible for sustained attention and error-monitoring. That's the rep.",
+    FOCUS: "You just stressed your anterior cingulate cortex - the region responsible for sustained attention and error-monitoring. That's the rep.",
     SPEED: "Processing speed is white matter efficiency. You just trained it.",
     MEMORY: "Working memory sits in prefrontal and parietal cortex. What you just trained is the mental workspace where thinking happens.",
     LOGIC: "Pattern recognition activates your dorsolateral prefrontal cortex. This is where strategic thinking lives.",

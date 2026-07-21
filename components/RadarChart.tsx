@@ -93,7 +93,7 @@ export default function RadarChart({
               fontSize="10"
               fontFamily="DM Mono, monospace"
             >
-              {v > 0 ? v : '—'}
+              {v > 0 ? v : '-'}
             </text>
           </g>
         )

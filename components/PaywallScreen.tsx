@@ -26,17 +26,13 @@ const TRIGGER_COPY: Record<string, { headline: string; sub: string }> = {
   general:       { headline: 'Unlock HONE Pro',              sub: 'Full access to all 6 muscle groups, unlimited sessions, and adaptive difficulty.' },
 }
 
-// Hosted checkout URLs. Polar takes precedence; Lemon Squeezy is the
-// fallback so either provider can be switched on via env vars alone.
+// Polar hosted checkout URLs - set in Vercel env. Their presence is what
+// enables the buy buttons; the actual session is created server-side by
+// /api/checkout so the buyer's uid can be attached.
 const POLAR_URLS: Record<string, string | undefined> = {
   monthly:  process.env.NEXT_PUBLIC_POLAR_MONTHLY_URL,
   annual:   process.env.NEXT_PUBLIC_POLAR_ANNUAL_URL,
   lifetime: process.env.NEXT_PUBLIC_POLAR_LIFETIME_URL,
-}
-const LS_URLS: Record<string, string | undefined> = {
-  monthly:  process.env.NEXT_PUBLIC_LS_MONTHLY_URL,
-  annual:   process.env.NEXT_PUBLIC_LS_ANNUAL_URL,
-  lifetime: process.env.NEXT_PUBLIC_LS_LIFETIME_URL,
 }
 
 export default function PaywallScreen({
@@ -51,7 +47,7 @@ export default function PaywallScreen({
   const accentColor = muscleGroup ? (MUSCLE_COLOR[muscleGroup] ?? '#B8F53C') : '#B8F53C'
 
   function checkout(plan: 'monthly' | 'annual' | 'lifetime') {
-    // uid travels to the payments webhook via checkout parameters — the
+    // uid travels to the payments webhook via checkout parameters - the
     // webhook grants Pro server-side and cannot credit a purchase
     // without it.
     const uid = auth.currentUser?.uid ?? ''
@@ -59,7 +55,7 @@ export default function PaywallScreen({
 
     const polarUrl = POLAR_URLS[plan]
     if (polarUrl) {
-      // Server-side checkout creation — static Polar links ignore
+      // Server-side checkout creation - static Polar links ignore
       // metadata query params, so /api/checkout attaches the uid via
       // Polar's API and redirects to the session it creates.
       window.location.href =
@@ -67,17 +63,8 @@ export default function PaywallScreen({
       return
     }
 
-    const baseUrl = LS_URLS[plan]
-    if (!baseUrl) {
-      setLoading(null)
-      alert('Checkout not configured yet — check back soon.')
-      return
-    }
-    const origin = window.location.origin
-    const successUrl = encodeURIComponent(`${origin}/success?plan=${plan}`)
-    const cancelUrl  = encodeURIComponent(`${origin}/`)
-    const custom = `&checkout[custom][uid]=${encodeURIComponent(uid)}&checkout[custom][plan]=${plan}`
-    window.location.href = `${baseUrl}?checkout[success_url]=${successUrl}&checkout[cancel_url]=${cancelUrl}${custom}`
+    setLoading(null)
+    alert('Checkout is not configured yet - please try again shortly.')
   }
 
   return (
@@ -146,7 +133,7 @@ export default function PaywallScreen({
         {/* Pricing */}
         <div className="w-full max-w-xs flex flex-col gap-3 mb-4">
 
-          {/* Annual — hero */}
+          {/* Annual - hero */}
           <button
             onClick={() => checkout('annual')}
             disabled={loading !== null}
@@ -157,7 +144,7 @@ export default function PaywallScreen({
               className="absolute -top-3 left-4 text-xs font-black px-3 py-0.5 rounded-full"
               style={{ backgroundColor: '#B8F53C', color: '#0A0A0F' }}
             >
-              BEST VALUE — SAVE 30%
+              BEST VALUE - SAVE 30%
             </span>
             <div className="flex items-center justify-between mt-1">
               <div>
