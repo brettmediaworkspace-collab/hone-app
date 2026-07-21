@@ -186,17 +186,23 @@ function HomeTab({
         <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-2">
           Your HONE Score
         </p>
-        <div className="flex items-center justify-between gap-3 mb-3">
+        <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-1.5 min-w-0">
             <span className="text-sm">🔥</span>
-            <span className="text-sm font-mono text-hone-muted truncate">
-              {streak > 0 ? `${streak} day streak` : 'Start your streak'}
+            <span className="text-xs font-mono text-hone-muted truncate">
+              {streak > 0 ? `${streak} Day Streak` : 'Start Your Streak'}
             </span>
           </div>
           {lastPRDays !== null && (
-            <span className="text-sm font-mono text-hone-muted whitespace-nowrap flex-shrink-0">
-              Last PR: {lastPRDays === 0 ? 'today' : `${lastPRDays}d ago`}
-            </span>
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <span className="text-sm">📅</span>
+              <span className="text-xs font-mono text-hone-muted whitespace-nowrap">
+                Last PR:{' '}
+                {lastPRDays === 0
+                  ? 'Today'
+                  : `${lastPRDays} ${lastPRDays === 1 ? 'Day' : 'Days'} Ago`}
+              </span>
+            </div>
           )}
         </div>
         {honesScore > 0 ? (

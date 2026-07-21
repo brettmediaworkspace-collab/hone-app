@@ -67,12 +67,15 @@ export default function ManageProCard({ plan }: { plan: Plan }) {
                     className="w-full py-3 px-4 rounded-xl border-2 flex items-center justify-between"
                     style={{ borderColor: '#B8F53C', backgroundColor: '#B8F53C0d' }}
                   >
-                    <p className="text-sm font-bold text-hone-text">
-                      {tier.name}
-                      <span className="text-xs text-hone-muted font-normal ml-2">
-                        {tier.price}
-                      </span>
-                    </p>
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-hone-text">
+                        {tier.name}
+                        <span className="text-xs text-hone-muted font-normal ml-2">
+                          {tier.price}
+                        </span>
+                      </p>
+                      <p className="text-xs text-hone-muted">{tier.blurb}</p>
+                    </div>
                     <span
                       className="text-xs font-mono font-bold px-2.5 py-1 rounded-full uppercase tracking-widest"
                       style={{ backgroundColor: '#B8F53C', color: '#0A0A0F' }}
@@ -90,12 +93,15 @@ export default function ManageProCard({ plan }: { plan: Plan }) {
                     onClick={() => upgrade(tier.id)}
                     className="w-full py-3 px-4 rounded-xl border border-hone-border bg-hone-surface transition-all active:scale-98 flex items-center justify-between text-left"
                   >
-                    <p className="text-sm font-bold text-hone-text">
-                      {tier.name}
-                      <span className="text-xs text-hone-muted font-normal ml-2">
-                        {tier.price} · {tier.blurb}
-                      </span>
-                    </p>
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-hone-text">
+                        {tier.name}
+                        <span className="text-xs text-hone-muted font-normal ml-2">
+                          {tier.price}
+                        </span>
+                      </p>
+                      <p className="text-xs text-hone-muted">{tier.blurb}</p>
+                    </div>
                     <span className="text-xs font-mono font-bold" style={{ color: '#B8F53C' }}>
                       UPGRADE →
                     </span>
@@ -119,20 +125,23 @@ export default function ManageProCard({ plan }: { plan: Plan }) {
             })}
           </div>
 
-          {rank < 2 && (
-            <p className="text-xs text-hone-muted leading-relaxed mt-3">
-              Upgrading ends your current plan automatically - no double billing.
-            </p>
-          )}
-
-          <a
-            href="https://polar.sh/appsplosh/portal"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block text-xs font-mono text-hone-muted underline underline-offset-4 mt-3"
-          >
-            Manage billing &amp; receipts →
-          </a>
+          <div className="flex items-end justify-between gap-3 mt-3">
+            {rank < 2 ? (
+              <p className="text-xs text-hone-muted leading-relaxed">
+                Upgrading ends your current plan automatically - no double billing.
+              </p>
+            ) : (
+              <span />
+            )}
+            <a
+              href="https://polar.sh/appsplosh/portal"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-mono text-hone-muted underline underline-offset-4 whitespace-nowrap flex-shrink-0"
+            >
+              Manage upgrades →
+            </a>
+          </div>
         </div>
       )}
     </div>
