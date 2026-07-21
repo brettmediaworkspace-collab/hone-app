@@ -52,6 +52,7 @@ export default function SessionPage() {
   const [set3Score, setSet3Score] = useState<SetScore>(DEFAULT_SET_SCORE)
   const [finalState, setFinalState] = useState<ReturnType<typeof saveSessionResult> | null>(null)
   const [prevHonesScore, setPrevHonesScore] = useState(0)
+  const [isPR, setIsPR] = useState(false)
   const [paywallMuscle, setPaywallMuscle] = useState<string | null>(null)
   const [isPro, setIsPro] = useState(false)
 
@@ -65,10 +66,20 @@ export default function SessionPage() {
     const goal = state.profile?.goal ?? 'Sharp Mind'
     const goalSplit = getGoalSplit(goal)
 
-    // For free users: replace locked muscles with free alternatives
-    const effectiveSplit = sub.isPro
-      ? goalSplit
-      : goalSplit.map(m => isFreeMuscle(m) ? m : FREE_MUSCLES[Math.floor(Math.random() * FREE_MUSCLES.length)])
+    // For free users: swap locked muscles for free ones. Fill from the
+    // unused free muscles rather than picking at random with replacement,
+    // which could hand out the same muscle three times in one session.
+    let effectiveSplit = goalSplit
+    if (!sub.isPro) {
+      const used = new Set(goalSplit.filter(m => isFreeMuscle(m)))
+      const pool = (FREE_MUSCLES as readonly string[])
+        .filter(m => !used.has(m))
+        .sort(() => Math.random() - 0.5)
+      let next = 0
+      effectiveSplit = goalSplit.map(m =>
+        isFreeMuscle(m) ? m : (pool[next++] ?? FREE_MUSCLES[next % FREE_MUSCLES.length])
+      )
+    }
     setSplit(effectiveSplit)
 
     // Difficulty: cap at 3 for free users
@@ -127,6 +138,7 @@ export default function SessionPage() {
     const state = loadState()
     const prevBest = state.bestScores[muscleGroup as keyof typeof state.bestScores] ?? 0
     const isPersonalRecord = sessionScore > prevBest
+    setIsPR(isPersonalRecord)
 
     const result = saveSessionResult({
       date: new Date().toISOString(),
@@ -247,10 +259,7 @@ export default function SessionPage() {
           honesScore={finalState.honesScore}
           prevHonesScore={prevHonesScore}
           streak={finalState.profile?.streak ?? 1}
-          isPersonalRecord={
-            finalState.bestScores[muscleGroup as keyof typeof finalState.bestScores] ===
-            calcSessionScore(set1Score, set2Score, set3Score)
-          }
+          isPersonalRecord={isPR}
           dayNumber={finalState.profile?.sessionCount ?? 1}
           onDone={() => router.push('/')}
         />

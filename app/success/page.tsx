@@ -8,7 +8,7 @@ import { auth, db } from '@/lib/firebase'
 import { saveSubscription, Plan } from '@/lib/subscription'
 import SaveProgressCard from '@/components/SaveProgressCard'
 
-// Post-checkout landing. Pro is granted ONLY by the Lemon Squeezy
+// Post-checkout landing. Pro is granted ONLY by the Polar
 // webhook writing hone_users/{uid}.subscription server-side; this page
 // just watches for that write and mirrors it into the local cache.
 // Visiting /success directly grants nothing.

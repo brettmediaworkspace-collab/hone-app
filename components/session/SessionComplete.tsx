@@ -333,7 +333,7 @@ function PRCardOverlay({
               DAY {dayNumber} · STREAK {streak} · {month.toUpperCase()}
             </p>
             <p className="text-xs font-mono text-hone-muted/50 mt-1">
-              HONE · honeyourmind.app
+              HONE · hone.appsplosh.com
             </p>
           </div>
         </div>
