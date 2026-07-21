@@ -77,3 +77,35 @@ export async function pullRemoteState(uid: string): Promise<boolean> {
     return false
   }
 }
+
+/**
+ * Explicit "restore from account": always adopt whatever the server holds
+ * for this user, with no progress comparison. Unlike pullRemoteState this
+ * will overwrite local data, so only call it from a deliberate user
+ * action. Returns whether saved training was found.
+ */
+export async function restoreFromAccount(uid: string): Promise<{ found: boolean }> {
+  try {
+    const snap = await getDoc(userDoc(uid))
+    if (!snap.exists()) return { found: false }
+    const data = snap.data()
+
+    // Server-verified subscription comes back regardless of training data.
+    const serverSub = data?.subscription
+    if (serverSub && typeof serverSub.isPro === 'boolean') {
+      saveSubscription({
+        isPro: serverSub.isPro,
+        plan: (serverSub.plan ?? 'free') as Plan,
+        expiresAt: serverSub.expiresAt ?? null,
+        stripeSessionId: serverSub.lsId ?? serverSub.providerId ?? null,
+      })
+    }
+
+    const remote = data?.state as AppState | undefined
+    if (!remote?.profile) return { found: false }
+    saveState(remote)
+    return { found: true }
+  } catch {
+    return { found: false }
+  }
+}

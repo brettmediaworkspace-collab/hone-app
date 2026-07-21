@@ -74,6 +74,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider()
+    // Always offer the account chooser. Without this Google silently
+    // reuses the current session, so there's no way to pick a different
+    // account (or to sign in at all if the wrong one is remembered).
+    provider.setCustomParameters({ prompt: 'select_account' })
     if (auth.currentUser?.isAnonymous) {
       try {
         // Upgrade the anonymous account in place - keeps uid and data.

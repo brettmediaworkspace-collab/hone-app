@@ -11,6 +11,7 @@ import Sparkline from '@/components/Sparkline'
 import ManageProCard from '@/components/ManageProCard'
 import MuscleGlyph from '@/components/MuscleGlyph'
 import ReminderCard from '@/components/ReminderCard'
+import AccountRow from '@/components/AccountRow'
 import { Plan } from '@/lib/subscription'
 
 const MUSCLE_GROUPS = ['FOCUS', 'SPEED', 'MEMORY', 'LOGIC', 'WORDS', 'CONTROL'] as const
@@ -293,6 +294,8 @@ function HomeTab({
           </span>
         </button>
       )}
+
+      <AccountRow />
 
       {/* Stats row */}
       <div className="flex items-center justify-between px-1">

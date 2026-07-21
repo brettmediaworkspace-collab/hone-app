@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { saveProfile, loadState } from '@/lib/gameState'
 import { useAuth } from '@/lib/auth'
-import { pullRemoteState } from '@/lib/cloudSync'
+import { restoreFromAccount } from '@/lib/cloudSync'
 import { auth } from '@/lib/firebase'
 
 type Step = 'hook' | 'name' | 'goal' | 'time' | 'ready'
@@ -41,12 +41,17 @@ export default function OnboardingPage() {
     try {
       await signInWithGoogle()
       const uid = auth.currentUser?.uid
-      if (uid) await pullRemoteState(uid)
+      if (uid) await restoreFromAccount(uid)
       if (loadState().profile) {
         router.replace('/')
         return
       }
-      setRestoreError('No saved training found for that account.')
+      const who = auth.currentUser?.email
+      setRestoreError(
+        who
+          ? `Signed in as ${who}, but that account has no saved training. If you use a different Google account on your phone, try again and pick that one.`
+          : 'No saved training found for that account.'
+      )
     } catch {
       setRestoreError('Could not sign in - please try again.')
     }
