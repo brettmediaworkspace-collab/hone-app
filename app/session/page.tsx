@@ -6,6 +6,7 @@ import Warmup from '@/components/session/Warmup'
 import RestScreen from '@/components/session/RestScreen'
 import SessionComplete from '@/components/session/SessionComplete'
 import { pickGame } from '@/lib/gameRegistry'
+import GameBackdrop from '@/components/GameBackdrop'
 import {
   loadState,
   saveSessionResult,
@@ -350,13 +351,18 @@ function GameRenderer({
   const Game = pickGame(muscle, sessionCount, setNumber)
 
   return (
-    <Game
-      difficulty={difficulty}
-      durationSecs={90}
-      muscleColor={color}
-      onComplete={onComplete}
-      coachCue={cue}
-      setNumber={setNumber}
-    />
+    <div className="relative h-full">
+      <GameBackdrop muscle={muscle} color={color} />
+      <div className="relative z-10 h-full">
+        <Game
+          difficulty={difficulty}
+          durationSecs={90}
+          muscleColor={color}
+          onComplete={onComplete}
+          coachCue={cue}
+          setNumber={setNumber}
+        />
+      </div>
+    </div>
   )
 }
