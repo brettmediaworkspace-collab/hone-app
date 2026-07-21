@@ -80,6 +80,36 @@ export async function GET(req: NextRequest) {
 
   const db = adminDb()
   const now = new Date()
+
+  // Test mode: ?test=1&uid=<uid> sends immediately to one user, ignoring
+  // the time window and the once-per-day guard, so push delivery can be
+  // verified without waiting for the real window. Still secret-protected
+  // and never writes lastSent.
+  const testUid = req.nextUrl.searchParams.get('test') ? req.nextUrl.searchParams.get('uid') : null
+  if (testUid) {
+    const docSnap = await db.collection('hone_users').doc(testUid).get()
+    const tokens: string[] = docSnap.data()?.reminders?.tokens ?? []
+    if (!tokens.length) {
+      return NextResponse.json({ ok: false, error: 'no tokens for that uid - enable reminders first' }, { status: 404 })
+    }
+    const res = await adminMessaging().sendEachForMulticast({
+      tokens,
+      notification: { title: 'HONE test reminder', body: 'Push is working. Real nudges arrive at your training time.' },
+      webpush: {
+        notification: { icon: '/icon-192.png', badge: '/icon-192.png', tag: 'hone-streak-reminder' },
+        fcmOptions: { link: 'https://app.hone.appsplosh.com' },
+      },
+    })
+    return NextResponse.json({
+      ok: true,
+      test: true,
+      tokens: tokens.length,
+      sent: res.successCount,
+      failed: res.failureCount,
+      errors: res.responses.filter(r => !r.success).map(r => (r.error as { code?: string })?.code ?? 'unknown'),
+    })
+  }
+
   const snap = await db
     .collection('hone_users')
     .where('reminders.enabled', '==', true)
