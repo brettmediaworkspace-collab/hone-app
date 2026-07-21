@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { useAuth } from '@/lib/auth'
+import { pullRemoteState } from '@/lib/cloudSync'
+import { auth } from '@/lib/firebase'
 
 // Prompts unlinked users to attach their progress to a Google account.
 // Rendered on the baseline reveal and the Home screen; hides itself once
@@ -35,10 +37,16 @@ export default function SaveProgressCard({
     setError(false)
     try {
       await signInWithGoogle()
-      setJustLinked(true)
+      // If this account already has training (signing in on a second
+      // device), pull it down before we re-render.
+      const uid = auth.currentUser?.uid
+      if (uid) await pullRemoteState(uid)
+      // Home read its data at mount, so a restored score/streak/Pro
+      // status wouldn't appear until a manual refresh. Reload so every
+      // screen reflects the account we just signed into.
+      window.location.reload()
     } catch {
       setError(true)
-    } finally {
       setBusy(false)
     }
   }
@@ -54,6 +62,10 @@ export default function SaveProgressCard({
       >
         {busy ? 'Connecting…' : 'Continue with Google'}
       </button>
+      <p className="text-xs text-hone-muted/80 leading-relaxed mt-2">
+        Already have a HONE account? This signs you in and restores your
+        training on this device.
+      </p>
       {error && (
         <p className="text-xs text-hone-red mt-2">
           Couldn&apos;t connect - your progress is saved on this device.
