@@ -2,7 +2,10 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { saveProfile } from '@/lib/gameState'
+import { saveProfile, loadState } from '@/lib/gameState'
+import { useAuth } from '@/lib/auth'
+import { pullRemoteState } from '@/lib/cloudSync'
+import { auth } from '@/lib/firebase'
 
 type Step = 'hook' | 'name' | 'goal' | 'time' | 'ready'
 
@@ -26,6 +29,29 @@ export default function OnboardingPage() {
   const [name, setName] = useState('')
   const [goal, setGoal] = useState('')
   const [time, setTime] = useState<'morning' | 'afternoon' | 'evening'>('morning')
+  const { signInWithGoogle } = useAuth()
+  const [restoring, setRestoring] = useState(false)
+  const [restoreError, setRestoreError] = useState<string | null>(null)
+
+  // Returning users on a new device: sign in and pull their existing
+  // training data rather than being forced through onboarding again.
+  async function handleRestore() {
+    setRestoreError(null)
+    setRestoring(true)
+    try {
+      await signInWithGoogle()
+      const uid = auth.currentUser?.uid
+      if (uid) await pullRemoteState(uid)
+      if (loadState().profile) {
+        router.replace('/')
+        return
+      }
+      setRestoreError('No saved training found for that account.')
+    } catch {
+      setRestoreError('Could not sign in - please try again.')
+    }
+    setRestoring(false)
+  }
 
   const handleComplete = () => {
     saveProfile({
@@ -65,6 +91,17 @@ export default function OnboardingPage() {
           </button>
 
           <p className="text-hone-muted text-xs mt-4 font-mono">Free · No credit card</p>
+
+          <button
+            onClick={handleRestore}
+            disabled={restoring}
+            className="mt-6 text-sm text-hone-muted underline underline-offset-4 disabled:opacity-50"
+          >
+            {restoring ? 'Signing in...' : 'Already training? Sign in'}
+          </button>
+          {restoreError && (
+            <p className="text-xs text-hone-red mt-2 max-w-xs">{restoreError}</p>
+          )}
           <p className="text-hone-muted/60 text-xs mt-6 font-mono">
             <a href="/terms" className="underline">Terms</a>
             {' · '}

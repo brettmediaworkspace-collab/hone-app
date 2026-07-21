@@ -12,8 +12,10 @@ import {
   signInAnonymously,
   signInWithPopup,
   linkWithPopup,
+  signInWithCredential,
   GoogleAuthProvider,
   User,
+  AuthError,
 } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { pullRemoteState, pushLocalState } from '@/lib/cloudSync'
@@ -78,10 +80,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await linkWithPopup(auth.currentUser, provider)
         return
       } catch (e: unknown) {
-        // Account already exists for this Google identity - sign into it
-        // and merge local progress on top.
         const code = (e as { code?: string })?.code
         if (code !== 'auth/credential-already-in-use') throw e
+        // This Google identity already owns an account (e.g. the user is
+        // signing in on a second device). Reuse the credential from the
+        // error rather than opening a second popup, which browsers often
+        // block because it isn't a direct response to a click.
+        const cred = GoogleAuthProvider.credentialFromError(e as AuthError)
+        if (cred) {
+          await signInWithCredential(auth, cred)
+          return
+        }
       }
     }
     await signInWithPopup(auth, provider)
