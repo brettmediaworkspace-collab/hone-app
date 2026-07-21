@@ -307,7 +307,13 @@ function HomeTab({
         </button>
       )}
 
-      {isPro && <ManageProCard plan={proPlan} />}
+      {isPro && (
+        <>
+          {/* Separates the daily action from account/billing controls */}
+          <div className="border-t border-hone-border mb-4" />
+          <ManageProCard plan={proPlan} />
+        </>
+      )}
 
       <ReminderCard trainingTime={trainingTime} />
 
