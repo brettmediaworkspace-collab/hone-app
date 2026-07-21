@@ -183,16 +183,21 @@ function HomeTab({
 
       {/* HONE Score card */}
       <div className="bg-hone-card border border-hone-border rounded-2xl p-5 mb-4">
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-xs font-mono text-hone-muted uppercase tracking-widest">
-            Your HONE Score
-          </p>
-          <div className="flex items-center gap-1.5 flex-shrink-0">
+        <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-2">
+          Your HONE Score
+        </p>
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <div className="flex items-center gap-1.5 min-w-0">
             <span className="text-sm">🔥</span>
-            <span className="text-sm font-mono text-hone-muted whitespace-nowrap">
+            <span className="text-sm font-mono text-hone-muted truncate">
               {streak > 0 ? `${streak} day streak` : 'Start your streak'}
             </span>
           </div>
+          {lastPRDays !== null && (
+            <span className="text-sm font-mono text-hone-muted whitespace-nowrap flex-shrink-0">
+              Last PR: {lastPRDays === 0 ? 'today' : `${lastPRDays}d ago`}
+            </span>
+          )}
         </div>
         {honesScore > 0 ? (
           <div className="relative flex items-end gap-3 mb-4">
@@ -302,14 +307,6 @@ function HomeTab({
       {isPro && <ManageProCard plan={proPlan} />}
 
       <ReminderCard trainingTime={trainingTime} />
-
-      {lastPRDays !== null && (
-        <div className="flex items-center justify-end px-1">
-          <span className="text-sm text-hone-muted font-mono">
-            Last PR: {lastPRDays === 0 ? 'today' : `${lastPRDays}d ago`}
-          </span>
-        </div>
-      )}
 
       <AccountRow />
     </div>
