@@ -9,7 +9,6 @@
 import { initializeApp, getApps, cert, App } from 'firebase-admin/app'
 import { getFirestore, Firestore } from 'firebase-admin/firestore'
 import { getMessaging, Messaging } from 'firebase-admin/messaging'
-import { getAuth, Auth } from 'firebase-admin/auth'
 
 let app: App | null = null
 
@@ -31,8 +30,4 @@ export function adminDb(): Firestore {
 
 export function adminMessaging(): Messaging {
   return getMessaging(ensureApp())
-}
-
-export function adminAuth(): Auth {
-  return getAuth(ensureApp())
 }

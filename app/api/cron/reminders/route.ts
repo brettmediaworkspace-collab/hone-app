@@ -10,7 +10,7 @@
 // Protected by CRON_SECRET (Vercel Cron sends it as a bearer token).
 
 import { NextRequest, NextResponse } from 'next/server'
-import { adminDb, adminMessaging, adminAuth } from '@/lib/firebaseAdmin'
+import { adminDb, adminMessaging } from '@/lib/firebaseAdmin'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -92,11 +92,14 @@ export async function GET(req: NextRequest) {
   // Convenience: ?test=1&email=you@example.com resolves the uid for you,
   // so there's no need to dig the document ID out of Firestore.
   if (isTest && !testUid && testEmail) {
-    try {
-      testUid = (await adminAuth().getUserByEmail(testEmail)).uid
-    } catch {
-      return NextResponse.json({ ok: false, error: `no account found for ${testEmail}` }, { status: 404 })
+    const match = await db.collection('hone_users').where('email', '==', testEmail).limit(1).get()
+    if (match.empty) {
+      return NextResponse.json(
+        { ok: false, error: `no account found for ${testEmail} - sign in and tap "Remind me daily" first` },
+        { status: 404 }
+      )
     }
+    testUid = match.docs[0].id
   }
 
   if (testUid) {

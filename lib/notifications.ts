@@ -62,6 +62,9 @@ export async function enableReminders(): Promise<{ ok: boolean; reason?: string 
     await setDoc(
       doc(db, 'hone_users', uid),
       {
+        // Stored so the reminder job can be tested by email without
+        // needing the Firestore document ID.
+        email: auth.currentUser?.email ?? null,
         reminders: {
           enabled: true,
           tokens: arrayUnion(token),
