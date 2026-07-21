@@ -40,18 +40,16 @@ export default function AccountRow() {
 
   return (
     <div className="px-1 mt-4 mb-2">
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-xs font-mono text-hone-muted truncate">
-          Signed in as {user.email ?? 'your account'}
-        </p>
-        <button
-          onClick={handleRestore}
-          disabled={busy}
-          className="text-xs font-mono text-hone-muted underline underline-offset-4 whitespace-nowrap disabled:opacity-50"
-        >
-          {busy ? 'Restoring...' : 'Restore from account'}
-        </button>
-      </div>
+      <p className="text-xs font-mono text-hone-muted truncate">
+        Signed in as {user.email ?? 'your account'}
+      </p>
+      <button
+        onClick={handleRestore}
+        disabled={busy}
+        className="block text-left mt-1 text-xs font-mono text-hone-muted underline underline-offset-4 disabled:opacity-50"
+      >
+        {busy ? 'Restoring...' : 'Restore from account'}
+      </button>
       {msg && <p className="text-xs text-hone-red mt-1">{msg}</p>}
     </div>
   )

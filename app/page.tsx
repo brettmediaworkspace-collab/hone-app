@@ -197,10 +197,7 @@ function HomeTab({
             <div className="flex items-center gap-1.5 flex-shrink-0">
               <span className="text-sm">📅</span>
               <span className="text-xs font-mono text-hone-muted whitespace-nowrap">
-                Last PR:{' '}
-                {lastPRDays === 0
-                  ? 'Today'
-                  : `${lastPRDays} ${lastPRDays === 1 ? 'Day' : 'Days'} Ago`}
+                Last PR: {lastPRDays === 0 ? 'Today' : `${lastPRDays}d Ago`}
               </span>
             </div>
           )}

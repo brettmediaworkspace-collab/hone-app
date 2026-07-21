@@ -43,7 +43,8 @@ export default function ManageProCard({ plan }: { plan: Plan }) {
       <button
         onClick={() => setOpen(o => !o)}
         aria-expanded={open}
-        className="w-full py-3 rounded-2xl font-mono font-bold uppercase tracking-widest text-hone-bg text-sm bg-hone-green flex items-center justify-center gap-2 transition-opacity active:opacity-80"
+        className="w-full py-3 rounded-2xl font-mono font-bold uppercase tracking-widest text-hone-bg text-sm flex items-center justify-center gap-2 transition-opacity active:opacity-80"
+        style={{ backgroundColor: '#ba6b32' }}
       >
         Your Membership
         <span className="text-xs">{open ? '▲' : '▼'}</span>
@@ -125,23 +126,18 @@ export default function ManageProCard({ plan }: { plan: Plan }) {
             })}
           </div>
 
-          <div className="flex items-end justify-between gap-3 mt-3">
-            {rank < 2 ? (
-              <p className="text-xs text-hone-muted leading-relaxed">
-                Upgrading ends your current plan automatically - no double billing.
-              </p>
-            ) : (
-              <span />
-            )}
+          <p className="text-xs text-hone-muted leading-snug mt-3">
+            {rank < 2 &&
+              'Upgrading ends your current plan automatically - no double billing. - '}
             <a
               href="https://polar.sh/appsplosh/portal"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-mono text-hone-muted underline underline-offset-4 whitespace-nowrap flex-shrink-0"
+              className="underline underline-offset-2 whitespace-nowrap"
             >
-              Manage upgrades →
+              Manage billing &amp; receipts →
             </a>
-          </div>
+          </p>
         </div>
       )}
     </div>
