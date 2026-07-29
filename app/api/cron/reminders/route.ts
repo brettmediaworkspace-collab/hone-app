@@ -65,7 +65,7 @@ function buildMessage(type: 'primary' | 'save', streak: number, name: string) {
   }
   return {
     title: 'Time to train',
-    body: '7 minutes. Six muscle groups. One score to beat.',
+    body: '7 minutes. Six rounds. One score to beat.',
   }
 }
 

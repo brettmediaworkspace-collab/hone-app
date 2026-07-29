@@ -1,7 +1,7 @@
 {
-  "name": "HONE - Sharpen Daily",
+  "name": "HONE - Beat Your Score",
   "short_name": "HONE",
-  "description": "Cognitive fitness training. 7 minutes a day. 6 muscle groups. One score to beat.",
+  "description": "A daily score challenge. 7 minutes. 6 rounds. Beat your best.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0A0A0F",

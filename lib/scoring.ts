@@ -48,7 +48,7 @@ export function calcSessionScore(set1: SetScore, set2: SetScore, set3: SetScore)
 export const KOVA_CUES = {
   warmup: [
     "Lock in. Seven minutes. No distractions.",
-    "You're about to train your most important muscle.",
+    "You're about to play your hardest round.",
     "Performance starts with presence. Let's go.",
   ],
   setStart: {
@@ -59,13 +59,13 @@ export const KOVA_CUES = {
     ],
     SPEED: [
       "Faster. Don't think - fire.",
-      "Reaction is a skill. Train it like one.",
+      "Reaction is the whole game here.",
       "Every millisecond counts.",
     ],
     MEMORY: [
       "Encode deliberately. Recall confidently.",
       "See it once. Own it.",
-      "Memory is a muscle. Load it.",
+      "Hold it, then land it.",
     ],
     LOGIC: [
       "Patterns everywhere. Find them.",
@@ -75,7 +75,7 @@ export const KOVA_CUES = {
     WORDS: [
       "Language is precision. Be precise.",
       "Fluency under pressure - that's the skill.",
-      "Words are weapons. Sharpen them.",
+      "Read fast. Pick fast.",
     ],
     CONTROL: [
       "Inhibit the impulse. Choose the response.",
@@ -85,17 +85,17 @@ export const KOVA_CUES = {
   },
   rest: [
     "Solid. Breathe out. Reset.",
-    "You dropped on reps 7–9 - adapt. Next set: maximum effort.",
-    "That's the adaptation working. One more set.",
+    "You dropped on reps 7–9 - next set: maximum effort.",
+    "Nice consistency so far. One more set.",
     "Consistency builds the score. Stay consistent.",
   ],
   complete: [
     "Session done. That's one more rep your competition didn't do.",
     "Seven minutes. Done. Come back tomorrow.",
-    "The work is in. Recovery starts now.",
+    "Session's in. See you tomorrow.",
   ],
   personalRecord: [
-    "Personal record. That's not luck - that's training.",
+    "Personal record. Nicely played.",
     "New benchmark. This is your floor now.",
     "You just raised the bar. Literally.",
   ],

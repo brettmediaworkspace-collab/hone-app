@@ -299,7 +299,7 @@ function HomeTab({
           className="w-full py-3 rounded-xl border border-hone-border bg-hone-card mb-4 flex items-center justify-between px-4"
         >
           <span className="text-xs font-mono text-hone-muted uppercase tracking-widest">
-            Unlock 3 more muscle groups
+            Unlock 3 more rounds
           </span>
           <span className="text-xs font-mono px-2 py-0.5 rounded-full" style={{ backgroundColor: '#B8F53C20', color: '#B8F53C' }}>
             PRO →
@@ -338,12 +338,12 @@ function ProgressTab({
       {/* Radar - the body scan */}
       <div className="bg-hone-card border border-hone-border rounded-2xl p-4 mb-4">
         <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-1">
-          Muscle Scan
+          Score Map
         </p>
         <RadarChart scores={muscleScores} />
         {Object.values(muscleScores).every(v => v === 0) && (
           <p className="text-xs text-hone-muted text-center -mt-2 pb-1">
-            Your shape appears as you train. Six muscles. Fill the ring.
+            Your shape appears as you play. Six rounds. Fill the ring.
           </p>
         )}
       </div>
@@ -368,7 +368,7 @@ function ProgressTab({
       {/* Muscle group bars */}
       <div className="bg-hone-card border border-hone-border rounded-2xl p-5 mb-4">
         <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-4">
-          Muscle Groups
+          Round Scores
         </p>
         {MUSCLE_GROUPS.map(muscle => {
           const score = muscleScores[muscle]

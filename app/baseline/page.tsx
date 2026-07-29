@@ -142,7 +142,7 @@ function IntroScreen({ name, onStart }: { name: string; onStart: () => void }) {
         Begin round 1
       </button>
       <p className="text-hone-muted text-xs mt-4 font-mono">
-        No pressure. This is day zero - everything improves from here.
+        No pressure. This is day zero - your baseline to beat.
       </p>
     </div>
   )
@@ -293,7 +293,7 @@ function RevealScreen({
         <div className="w-full max-w-xs animate-slide-up">
           <div className="bg-hone-card border border-hone-border rounded-2xl p-4 mb-6 text-left">
             <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-3">
-              MUSCLE BREAKDOWN
+              SCORE BREAKDOWN
             </p>
             {ROUNDS.map(m => {
               const s = scores[m]

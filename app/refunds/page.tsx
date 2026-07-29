@@ -6,9 +6,9 @@ export default function RefundsPage() {
   return (
     <LegalPage title="Refund Policy" updated="13 July 2026">
       <p>
-        We want you to pay for HONE Pro only if it&rsquo;s genuinely working
-        for you. That&rsquo;s why the core experience - including your baseline
-        assessment and daily training on free muscle groups - costs nothing,
+        We want you to pay for HONE Pro only if it&rsquo;s a game you actually
+        want to keep playing. That&rsquo;s why the core experience - including
+        your baseline and daily play on free rounds - costs nothing,
         and why subscriptions come with a free trial before any charge.
       </p>
 

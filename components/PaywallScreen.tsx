@@ -18,12 +18,12 @@ const MUSCLE_COLOR: Record<string, string> = {
 }
 
 const TRIGGER_COPY: Record<string, { headline: string; sub: string }> = {
-  muscle:        { headline: 'Unlock this muscle group',     sub: 'Pro unlocks all 6 cognitive muscle groups and adaptive difficulty.' },
-  'daily-limit': { headline: "You've trained today",         sub: "Free users get one session per day. Go Pro for unlimited sessions." },
+  muscle:        { headline: 'Unlock this round',            sub: 'Pro unlocks all 6 rounds and adaptive difficulty.' },
+  'daily-limit': { headline: "You've played today",          sub: "Free users get one session per day. Go Pro for unlimited sessions." },
   streak:        { headline: "Don't break your streak",      sub: "Pro keeps your streak alive and unlocks full session history." },
-  share:         { headline: 'Share your PR',                sub: 'Pro users can share their Personal Records. Show your brain gains.' },
-  difficulty:    { headline: 'Your brain is ready for more', sub: 'Free tier caps at Level 3. Pro unlocks full adaptive difficulty up to Level 12.' },
-  general:       { headline: 'Unlock HONE Pro',              sub: 'Full access to all 6 muscle groups, unlimited sessions, and adaptive difficulty.' },
+  share:         { headline: 'Share your PR',                sub: 'Pro users can share their Personal Records. Show off your best scores.' },
+  difficulty:    { headline: 'Ready for more?',               sub: 'Free tier caps at Level 3. Pro unlocks full adaptive difficulty up to Level 12.' },
+  general:       { headline: 'Unlock HONE Pro',              sub: 'Full access to all 6 rounds, unlimited sessions, and adaptive difficulty.' },
 }
 
 // Polar hosted checkout URLs - set in Vercel env. Their presence is what
@@ -115,7 +115,7 @@ export default function PaywallScreen({
         <div className="w-full max-w-xs bg-hone-card border border-hone-border rounded-2xl p-4 mb-6">
           <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-3">HONE Pro includes</p>
           {[
-            'All 6 cognitive muscle groups',
+            'All 6 rounds',
             'Unlimited sessions per day',
             'Full adaptive difficulty (up to Level 12)',
             'Complete session history & trends',
@@ -198,6 +198,9 @@ export default function PaywallScreen({
         <p className="text-xs text-hone-muted text-center max-w-xs leading-relaxed">
           Subscriptions renew automatically. Cancel anytime. VAT included.
           14-day refund guarantee.
+        </p>
+        <p className="text-xs text-hone-muted/60 text-center max-w-xs mt-2">
+          HONE is a game, not medical advice - it does not diagnose or treat any condition.
         </p>
         <p className="text-xs font-mono text-hone-muted text-center mt-3">
           <a href="/terms" className="underline">Terms</a>

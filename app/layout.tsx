@@ -3,8 +3,8 @@ import './globals.css'
 import { AuthProvider } from '@/lib/auth'
 
 export const metadata: Metadata = {
-  title: 'HONE - Sharpen Daily',
-  description: 'Cognitive fitness training. 7 minutes a day. 6 muscle groups. One score to beat.',
+  title: 'HONE - Beat Your Score',
+  description: 'A daily score challenge. 7 minutes. 6 rounds. Beat your best.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,

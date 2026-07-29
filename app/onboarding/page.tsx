@@ -10,11 +10,11 @@ import { auth } from '@/lib/firebase'
 type Step = 'hook' | 'name' | 'goal' | 'time' | 'ready'
 
 const GOALS = [
-  { id: 'Sharp Mind', label: 'Sharp Mind', desc: 'Balanced across all 6 groups', split: 'FOCUS + MEMORY + LOGIC' },
-  { id: 'Executive Focus', label: 'Executive Focus', desc: 'For deep work and decision-making', split: 'FOCUS + CONTROL + SPEED' },
-  { id: 'Creative Edge', label: 'Creative Edge', desc: 'Language, pattern & imagination', split: 'WORDS + LOGIC + MEMORY' },
-  { id: 'Fast Reactions', label: 'Fast Reactions', desc: 'Processing speed & reflex precision', split: 'SPEED + CONTROL + FOCUS' },
-  { id: 'Deep Memory', label: 'Deep Memory', desc: 'Encoding, recall & retention', split: 'MEMORY + LOGIC + WORDS' },
+  { id: 'Sharp Mind', label: 'Sharp Mind', desc: 'Balanced across all 6 rounds', split: 'FOCUS + MEMORY + LOGIC' },
+  { id: 'Executive Focus', label: 'Executive Focus', desc: 'Heavier on Focus, Control and Speed', split: 'FOCUS + CONTROL + SPEED' },
+  { id: 'Creative Edge', label: 'Creative Edge', desc: 'Heavier on Words, Logic and Memory', split: 'WORDS + LOGIC + MEMORY' },
+  { id: 'Fast Reactions', label: 'Fast Reactions', desc: 'Heavier on Speed, Control and Focus', split: 'SPEED + CONTROL + FOCUS' },
+  { id: 'Deep Memory', label: 'Deep Memory', desc: 'Heavier on Memory, Logic and Words', split: 'MEMORY + LOGIC + WORDS' },
 ]
 
 const TIMES = [
@@ -79,12 +79,12 @@ export default function OnboardingPage() {
               H<span className="text-hone-green">O</span>NE
             </p>
             <h1 className="text-4xl font-black leading-tight mb-6">
-              You train your body.
+              7 minutes.
               <br />
-              <span className="text-hone-muted">What about your mind?</span>
+              <span className="text-hone-muted">6 rounds. One score to beat.</span>
             </h1>
             <p className="text-hone-muted text-base leading-relaxed">
-              7 minutes a day. 6 cognitive muscle groups. One score to beat.
+              Focus. Speed. Memory. Logic. Words. Control.
             </p>
           </div>
 
@@ -92,7 +92,7 @@ export default function OnboardingPage() {
             onClick={() => setStep('name')}
             className="w-full max-w-xs py-4 rounded-2xl font-mono font-bold uppercase tracking-widest text-hone-bg text-sm bg-hone-green transition-opacity active:opacity-80"
           >
-            Start my assessment
+            Start my baseline
           </button>
 
           <p className="text-hone-muted text-xs mt-4 font-mono">Free · No credit card</p>
@@ -102,12 +102,15 @@ export default function OnboardingPage() {
             disabled={restoring}
             className="mt-6 text-sm text-hone-muted underline underline-offset-4 disabled:opacity-50"
           >
-            {restoring ? 'Signing in...' : 'Already training? Sign in'}
+            {restoring ? 'Signing in...' : 'Already playing? Sign in'}
           </button>
           {restoreError && (
             <p className="text-xs text-hone-red mt-2 max-w-xs">{restoreError}</p>
           )}
-          <p className="text-hone-muted/60 text-xs mt-6 font-mono">
+          <p className="text-hone-muted/60 text-xs mt-6 max-w-xs">
+            HONE is a game, not medical advice - it does not diagnose or treat any condition.
+          </p>
+          <p className="text-hone-muted/60 text-xs mt-3 font-mono">
             <a href="/terms" className="underline">Terms</a>
             {' · '}
             <a href="/privacy" className="underline">Privacy</a>
@@ -149,7 +152,7 @@ export default function OnboardingPage() {
           <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-8">
             2 / 3
           </p>
-          <h2 className="text-3xl font-black mb-2">What&apos;s your training goal?</h2>
+          <h2 className="text-3xl font-black mb-2">What&apos;s your round mix?</h2>
           <p className="text-hone-muted text-sm mb-6">
             KOVA will build your daily split around this.
           </p>
@@ -200,7 +203,7 @@ export default function OnboardingPage() {
           <p className="text-xs font-mono text-hone-muted uppercase tracking-widest mb-8">
             3 / 3
           </p>
-          <h2 className="text-3xl font-black mb-2">When do you train?</h2>
+          <h2 className="text-3xl font-black mb-2">When do you play?</h2>
           <p className="text-hone-muted text-sm mb-8">
             KOVA will remind you when it&apos;s time.
           </p>
@@ -250,9 +253,9 @@ export default function OnboardingPage() {
             <p className="text-hone-muted text-sm font-mono uppercase tracking-widest mb-4">
               You&apos;re ready, {name.split(' ')[0]}.
             </p>
-            <h2 className="text-4xl font-black mb-2">Sharpen daily.</h2>
+            <h2 className="text-4xl font-black mb-2">Play daily.</h2>
             <p className="text-hone-muted text-base leading-relaxed mt-4">
-              First: a 3-minute baseline assessment.
+              First: a 3-minute baseline.
               <br />Three rounds. One starting score.
             </p>
           </div>
@@ -271,7 +274,7 @@ export default function OnboardingPage() {
                 <span className="text-hone-text font-medium">{goal}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-hone-muted">Training time</span>
+                <span className="text-hone-muted">Play time</span>
                 <span className="text-hone-text font-medium capitalize">{time}</span>
               </div>
             </div>

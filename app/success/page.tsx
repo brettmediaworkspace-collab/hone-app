@@ -80,7 +80,7 @@ function SuccessContent() {
           Welcome to Pro
         </h1>
         <p className="text-sm text-hone-muted max-w-xs leading-relaxed">
-          All 6 muscle groups unlocked. Unlimited sessions. Adaptive difficulty
+          All 6 rounds unlocked. Unlimited sessions. Adaptive difficulty
           up to Level 12.
         </p>
         <div className="w-full max-w-xs mt-8 text-left">

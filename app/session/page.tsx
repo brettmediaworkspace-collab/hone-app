@@ -281,12 +281,12 @@ function CooldownScreen({
   }, [onComplete])
 
   const INSIGHTS: Record<string, string> = {
-    FOCUS: "You just stressed your anterior cingulate cortex - the region responsible for sustained attention and error-monitoring. That's the rep.",
-    SPEED: "Processing speed is white matter efficiency. You just trained it.",
-    MEMORY: "Working memory sits in prefrontal and parietal cortex. What you just trained is the mental workspace where thinking happens.",
-    LOGIC: "Pattern recognition activates your dorsolateral prefrontal cortex. This is where strategic thinking lives.",
-    WORDS: "Verbal fluency training recruits Broca's area and temporal cortex. Language circuits are being reinforced.",
-    CONTROL: "Inhibitory control is the most trainable executive function. You just worked the most valuable muscle in your brain.",
+    FOCUS: "This round is about reacting before you think. Hesitate and the target's already gone.",
+    SPEED: "Pure reaction, no analysis. The clock doesn't wait for you to be sure.",
+    MEMORY: "Hold it, then recall it. That gap between seeing and answering is the whole round.",
+    LOGIC: "Spot the pattern before the timer runs out. Slow and right beats fast and wrong.",
+    WORDS: "Read fast, pick fast. Precision under a countdown.",
+    CONTROL: "The hard part isn't reacting - it's holding back the automatic response and choosing the right one instead.",
   }
 
   return (
@@ -304,7 +304,7 @@ function CooldownScreen({
         </p>
       </div>
 
-      <h2 className="text-xl font-bold mb-4">Today&apos;s insight</h2>
+      <h2 className="text-xl font-bold mb-4">About this round</h2>
 
       <div className="bg-hone-card border border-hone-border rounded-2xl p-5 max-w-xs">
         <p className="text-xs font-mono uppercase tracking-widest mb-3" style={{ color: muscleColor }}>

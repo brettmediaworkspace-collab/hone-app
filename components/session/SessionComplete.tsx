@@ -71,8 +71,8 @@ export default function SessionComplete({
   const sets = [set1, set2, set3]
 
   const KOVA_NOTES = [
-    `${muscleGroup} is responding. Keep the pressure on.`,
-    `${set3.accuracy > set1.accuracy ? 'You peaked on the finisher - that\'s elite adaptation.' : 'You\'ll find more in the finisher. We\'ll train it.'}`,
+    `${muscleGroup} round done. Keep the streak going.`,
+    `${set3.accuracy > set1.accuracy ? 'You peaked on the finisher - strong finish.' : 'You\'ll find more in the finisher next time.'}`,
     `Session done. ${streak} days straight. The score reflects it.`,
   ]
   const kova = KOVA_NOTES[Math.floor(Math.random() * KOVA_NOTES.length)]
@@ -187,13 +187,13 @@ export default function SessionComplete({
           </div>
           <div className="text-center">
             <p className="font-mono text-2xl font-bold text-hone-text">DAY {dayNumber}</p>
-            <p className="text-xs text-hone-muted font-mono uppercase tracking-widest">Training</p>
+            <p className="text-xs text-hone-muted font-mono uppercase tracking-widest">Day</p>
           </div>
           <div className="text-center">
             <p className="font-mono text-2xl font-bold" style={{ color }}>
               {muscleGroup}
             </p>
-            <p className="text-xs text-hone-muted font-mono uppercase tracking-widest">Muscle</p>
+            <p className="text-xs text-hone-muted font-mono uppercase tracking-widest">Round</p>
           </div>
         </div>
       </div>
@@ -285,11 +285,11 @@ function PRCardOverlay({
   const month = new Date().toLocaleString('default', { month: 'short', year: '2-digit' })
 
   const KOVA_QUOTES: Record<string, string> = {
-    FOCUS: "Attention isn't a gift. It's a muscle. You just maxed it.",
-    SPEED: "Reaction time trained is reaction time earned.",
-    MEMORY: "What you encode deliberately, you own permanently.",
+    FOCUS: "Attention isn't luck. You just maxed it.",
+    SPEED: "Fast reactions aren't given. You just earned yours.",
+    MEMORY: "Encode it once, own the score.",
     LOGIC: "Patterns reveal themselves to the patient mind.",
-    WORDS: "Language is power. You just got more of it.",
+    WORDS: "Language is power. You just proved it.",
     CONTROL: "Control is strength. You demonstrated it.",
   }
 

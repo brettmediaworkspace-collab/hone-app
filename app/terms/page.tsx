@@ -7,27 +7,26 @@ export default function TermsPage() {
     <LegalPage title="Terms of Service" updated="13 July 2026">
       <p>
         These terms govern your use of HONE (the &ldquo;Service&rdquo;), a
-        cognitive training application operated by Appsplosh
+        game operated by Appsplosh
         (&ldquo;we&rdquo;, &ldquo;us&rdquo;), available at hone.appsplosh.com
         and app.hone.appsplosh.com. By using HONE you agree to these terms.
       </p>
 
       <H>1. The Service</H>
       <p>
-        HONE provides structured cognitive training exercises across six skill
-        areas (focus, speed, memory, logic, words, and self-control), progress
-        tracking, and a composite performance metric (the &ldquo;HONE
-        Score&rdquo;). A free tier is available; additional features require a
-        paid subscription (&ldquo;HONE Pro&rdquo;).
+        HONE provides six score-based game rounds (focus, speed, memory,
+        logic, words, and control), progress tracking, and a composite score
+        (the &ldquo;HONE Score&rdquo;). A free tier is available; additional
+        features require a paid subscription (&ldquo;HONE Pro&rdquo;).
       </p>
 
       <H>2. What HONE is - and is not</H>
       <p>
-        HONE is a training and self-improvement tool. It is <strong>not</strong>{' '}
+        HONE is a game. It is <strong>not</strong>{' '}
         a medical device, does not diagnose, treat, or prevent any medical
         condition, and makes no claims regarding IQ, clinical outcomes, or
-        protection against cognitive decline. Performance improvements shown in
-        the app reflect your performance on the app&rsquo;s exercises. If you
+        protection against cognitive decline. Scores shown in
+        the app reflect your performance on the app&rsquo;s game rounds only. If you
         have concerns about your cognitive health, consult a qualified medical
         professional.
       </p>
@@ -64,7 +63,7 @@ export default function TermsPage() {
       <p>
         The Service, including its games, design, branding, scoring system, and
         content, is owned by Appsplosh. You receive a personal,
-        non-transferable licence to use it. Your training data remains yours.
+        non-transferable licence to use it. Your data remains yours.
       </p>
 
       <H>7. Availability and changes</H>

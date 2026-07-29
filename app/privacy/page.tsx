@@ -12,7 +12,7 @@ export default function PrivacyPage() {
       </p>
 
       <H>1. What we collect</H>
-      <p><strong>Without an account:</strong> your training data (scores,
+      <p><strong>Without an account:</strong> your game data (scores,
         session results, streaks, preferences) is stored locally on your
         device and, linked to an anonymous identifier, in our database so the
         app functions. No name or email is collected.</p>
@@ -25,8 +25,8 @@ export default function PrivacyPage() {
 
       <H>2. What we don&rsquo;t do</H>
       <p>
-        We do not sell your data. We do not share your training data with
-        advertisers. We do not use your cognitive performance data for any
+        We do not sell your data. We do not share your game data with
+        advertisers. We do not use your gameplay performance data for any
         purpose other than showing you your own progress.
       </p>
 
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
 
       <H>4. Legal basis (UK/EU GDPR)</H>
       <p>
-        We process account and training data to perform our contract with you
+        We process account and game data to perform our contract with you
         (providing the Service), and subscription data to meet legal and
         accounting obligations. Anonymous usage of the free tier relies on
         legitimate interest in operating the Service.
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
       <H>7. Cookies and tracking</H>
       <p>
         The app uses only functional storage (authentication state and your
-        training data). No third-party advertising cookies or cross-site
+        game data). No third-party advertising cookies or cross-site
         trackers are used within the app.
       </p>
 
